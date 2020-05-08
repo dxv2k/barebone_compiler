@@ -13,19 +13,30 @@ RESERVED WORD LIST:
 COMMENTS: 
     comments start with '#' until end of line  
 
-
-
-IDENTIFIER: 
+IDENTIFIER/VARIABLE NAME: 
     MUST BEGIN WITH ALPHABET NAMES 
     UPPERCASE AND LOWERCASE ARE THE SAME 
         - Ex: Foo, FoO, FOO are the same
 
 STATEMENTS: 
-    incr <variable_name>;              #increase variable by 1 
-    decr <variable_name>;              #decrease variable by 1 
-    while <variable_name> not 0 do 
-        <STATEMENTS> 
+    incr <variable_name>;                       # increase variable by 1 
+    decr <variable_name>;                       # decrease variable by 1 
+    clear <variable_name>;                      # make variable to zero   
+    init <variable_name> <value>                # variable_name = value  
+
+    while <variable_name> not 0 do              # loop while variable_name not 0 
+        <STATEMENTS>                            # may contain one or more statements in while loop 
     end; 
+
+    copy <variable_name1> to <variable_name2>   # copy variable_name1 to variable_name2
+        
+I/O:         
+    <NO IDEA>    
+        
+LANGUAGE STRUCTURE: 
+     VARIABLE MUST BE DECLARE BEFORE USING IT (?)   
+      
+        
         
         
         

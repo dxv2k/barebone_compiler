@@ -26,8 +26,10 @@ ADDITIONAL:
         + Implement VIM as text editor 
     - Write document and syntax instructions  
 
+FILE EXTENSION: 
+    - *.bb
 
-FEATURE: 
+FEATURES: 
     - THINKING ABOUT WRITING FUNCTION (SUBPROGRAM) 
         + CONCERT about function name (SUBPROGRAM NAME)
     - ERROR, WARNING 
@@ -41,7 +43,7 @@ FEATURE:
 CONCERN: 
     - RULES FOR FUNCTION NAMES AND VARIABLES NAME
     - Limit input, object passing and memory CONCERN
-
+    - NEGATIVE variable (?)
 
 REFERENCES: 
 	https://github.com/dxv2k/the-super-tiny-compiler
