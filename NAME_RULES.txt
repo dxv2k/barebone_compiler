@@ -1,0 +1,37 @@
+This file will describe name rules when using compilers (identifier)
+
+RESERVED WORD LIST: 
+    clear
+    copy 
+    decr 
+    incr 
+    init 
+    do 
+    while  
+    - Reserved words are case insensitive  
+
+COMMENTS: 
+    comments start with '#' until end of line  
+
+
+
+IDENTIFIER: 
+    MUST BEGIN WITH ALPHABET NAMES 
+    UPPERCASE AND LOWERCASE ARE THE SAME 
+        - Ex: Foo, FoO, FOO are the same
+
+STATEMENTS: 
+    incr <variable_name>;              #increase variable by 1 
+    decr <variable_name>;              #decrease variable by 1 
+    while <variable_name> not 0 do 
+        <STATEMENTS> 
+    end; 
+        
+        
+        
+        
+        
+        
+        
+        
+        

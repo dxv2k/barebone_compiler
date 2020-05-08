@@ -24,7 +24,7 @@ ADDITIONAL:
     - Syntax highlight
     - Support compile inside text editor (Simple IDE)
         + Implement VIM as text editor 
-
+    - Write document and syntax instructions  
 
 
 FEATURE: 
@@ -41,3 +41,16 @@ FEATURE:
 CONCERN: 
     - RULES FOR FUNCTION NAMES AND VARIABLES NAME
     - Limit input, object passing and memory CONCERN
+
+
+REFERENCES: 
+	https://github.com/dxv2k/the-super-tiny-compiler
+	https://github.com/peternguyen93/Barebones-Compiler
+    https://github.com/dxv2k/barebones
+
+
+
+
+
+
+
