@@ -40,17 +40,21 @@ FEATURES:
         + pass-by-result
         + pass-by-reference
         + pass-by-value-result
+
 CONCERN: 
     - RULES FOR FUNCTION NAMES AND VARIABLES NAME
     - Limit input, object passing and memory CONCERN
     - NEGATIVE variable (?)
+    - SYNTAX END command (?) 
+
+
 
 REFERENCES: 
 	https://github.com/dxv2k/the-super-tiny-compiler
 	https://github.com/peternguyen93/Barebones-Compiler
     https://github.com/dxv2k/barebones
-
-
+    Computer Science An Overview 12th Edition 
+    Computer Science An Overview 9th Edition 
 
 
 

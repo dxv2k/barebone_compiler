@@ -29,6 +29,9 @@ STATEMENTS:
     end; 
 
     copy <variable_name1> to <variable_name2>   # copy variable_name1 to variable_name2
+    init <variable_name> = <value_INT_dtype>    # Initialize <variable_name> with value>  
+                                            
+        
         
 I/O:         
     <NO IDEA>    
