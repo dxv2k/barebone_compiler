@@ -46,6 +46,12 @@ CONCERN:
     - Limit input, object passing and memory CONCERN
     - NEGATIVE variable (?)
     - SYNTAX END command (?) 
+    - DISTINGUISH BETWEEN INTERPRETER AND COMPILER 
+        -> INTERPRETER: act on what program tell it to do 
+        -> COMPILER: transform into machine language 
+        -> Plan right now is to build interpreter first and then 
+            re-used some of the code to build compiler  
+
 
 
 
@@ -55,7 +61,7 @@ REFERENCES:
     https://github.com/dxv2k/barebones
     Computer Science An Overview 12th Edition 
     Computer Science An Overview 9th Edition 
-
+    https://ruslanspivak.com/lsbasi-part1/ [CURRENTLY WATCHING]
 
 
 
