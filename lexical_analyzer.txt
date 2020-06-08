@@ -17,8 +17,8 @@ LEX SOURCE
     {rules} 
     %% 
     {user subroutines}
-
- 
+    this part and how to impelement regular expression in this 
+    Should you write your own lexical anaylyzer? 
 
  
 

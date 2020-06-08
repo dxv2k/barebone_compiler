@@ -62,7 +62,7 @@ REFERENCES:
     Computer Science An Overview 12th Edition 
     Computer Science An Overview 9th Edition 
     https://ruslanspivak.com/lsbasi-part1/ [CURRENTLY WATCHING]
-
+    https://developer.ibm.com/tutorials/au-lexyacc/ (How to write text parsers with yacc and lex)
 
 
 
