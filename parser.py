@@ -23,6 +23,8 @@ t_div = r"/"
 # TODO: ADD t_ignore_COMMENT
 
 
+literals = ['+','-','*','/']
+
 #-------------------------------PARSER---------------------------------- 
 
 # Parser rules 
@@ -33,11 +35,17 @@ t_div = r"/"
 
 # TODO: add p_list_stmt(p)
 
+
+
 def p_stmt(p):
    """
       stmt : expr
    """
    p[0] = ("stmt", p[1])
+
+
+# Consider to use precedence()
+# to see if it can helps
 
 def p_expr(p):
    """
