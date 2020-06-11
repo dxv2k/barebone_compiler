@@ -1,76 +1,92 @@
-from ply import lex,yacc  
-print('Import lex and yacc successfully')
+from ply import lex,yacc 
 
 # List of tokens 
 tokens = [ 
-    "PLUS"
-    "MINUS", 
     "ID",
-    "NUMBER",
-    # "MULT",
-] 
+    "NUMBER", 
+    "PLUS",
+    "MINUS",
+    "MULT",
+    "DIV",
+    "LPAREN", 
+    "RPAREN",
+]
 
-# List of regex rules for tokens 
+#-------------------REGEX-RULES------------------------------
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    return t
 
-# TODO: ADD t_ignore_COMMENT
-t_PLUS = r"\+"
-t_MINUS = r"-"
-t_ID = r"^[a-zA-Z]+$"
-t_NUMBER = r"[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?"
+def t_NUMBER(t): 
+    r'\d+' 
+    t.value = int(t.value)
+    return t 
 
+# Set for simple regex rules for tokenizer
+t_ignore = ' \t' 
+t_PLUS = r'\+'
+t_MINUS = r'-'
+t_MULT = r'\*'
+t_DIV = r'/'
+t_LPAREN = r'\(' 
+t_RPAREN = r'\)' 
 
+# Tracking lines for multiple line streaming input
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
-# t_MULT = r"\*"
-t_ignore = r" \t" # Ignore spaces and tabs
-
-# TODO: add t_LPAREN, t_RPAREN
-
-
-
+# Lex error handling 
 def t_error(t): 
-    print("Illegal characters '%s'" % t.value[0]) 
+    print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-#-------------------------PARSER---------------------------
-# Grammar rules: 
-# P -> E 
-# E -> E + T | T 
-# T -> T * F | F 
-# F -> ( E ) | ID
-
-# def p_stmt(p): 
-#     '''
-#         stmt : expr
-#     '''
-
-# def p_expr(p): 
-#     ''' 
-#         expr : expr PLUS term 
-#              | term 
-#     '''
-
-# def p_term(p): 
-#     ''' 
-#         term : term MULT factor
-#              | factor
-#     ''' 
-
-# # def p_factor(p): 
-    
+#---------------------GRAMMAR-RULES------------------------------
+# expr : expr PLUS term
+#      | expr MINUS term 
+#      | term 
+# term : temr MULTI factor
+#      | temr DIV factor 
+#      | factor
+# factor : NUMBER
+#        | ( expr )            
 
 
 
-# Testing for lexer (tokenizer) 
-data = ''' 32 + 10 ''' 
 
 
-# Build the lexer 
-lexer = lex.lex(debug=True)
+# Build lex 
+lexer = lex.lex()
+
+
+# Testing lex
+data = ''' 
+32 + 10
+12 - 4
+12 * 8
+X
+( )
+( X )
+X124
+_123abas
+/asba
+'''
+
 lexer.input(data)
-while True: 
-    curr_token = lexer.token()
-    if not curr_token: 
-        break 
-    print(curr_token)
+
+
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
+ 
+
+
+
+
+
+
 
 
