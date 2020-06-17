@@ -6,7 +6,7 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'DIV ID LPAREN MINUS MULT NUMBER PLUS RPAREN\n        stmt : expr\n    \n        expr : expr PLUS term\n             | expr MINUS term \n             | term \n     \n        term : term MULT factor\n             | term DIV factor \n             | factor\n     \n        factor : NUMBER\n               | expr             \n    '
+_lr_signature = 'COMMENT DIV ID LPAREN MINUS MULT NUMBER PLUS RPAREN\n        stmt : expr\n    \n        expr : expr PLUS term\n             | expr MINUS term \n             | term \n     \n        term : term MULT factor\n             | term DIV factor \n             | factor\n     \n        factor : NUMBER\n               | expr             \n    '
     
 _lr_action_items = {'NUMBER':([0,6,7,8,9,],[5,5,5,5,5,]),'$end':([1,2,3,4,5,10,11,12,13,14,],[0,-1,-4,-7,-8,-9,-2,-3,-5,-6,]),'PLUS':([2,3,4,5,10,11,12,13,14,],[6,-4,-7,-8,6,-2,-3,-5,-6,]),'MINUS':([2,3,4,5,10,11,12,13,14,],[7,-4,-7,-8,7,-2,-3,-5,-6,]),'MULT':([2,3,4,5,10,11,12,13,14,],[-9,8,-7,-8,-9,8,8,-5,-6,]),'DIV':([2,3,4,5,10,11,12,13,14,],[-9,9,-7,-8,-9,9,9,-5,-6,]),}
 
@@ -27,13 +27,13 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> expr','stmt',1,'p_stmt','parser_test.py',72),
-  ('expr -> expr PLUS term','expr',3,'p_expr','parser_test.py',78),
-  ('expr -> expr MINUS term','expr',3,'p_expr','parser_test.py',79),
-  ('expr -> term','expr',1,'p_expr','parser_test.py',80),
-  ('term -> term MULT factor','term',3,'p_term','parser_test.py',88),
-  ('term -> term DIV factor','term',3,'p_term','parser_test.py',89),
-  ('term -> factor','term',1,'p_term','parser_test.py',90),
-  ('factor -> NUMBER','factor',1,'p_factor','parser_test.py',95),
-  ('factor -> expr','factor',1,'p_factor','parser_test.py',96),
+  ('stmt -> expr','stmt',1,'p_stmt','parser_test.py',87),
+  ('expr -> expr PLUS term','expr',3,'p_expr','parser_test.py',93),
+  ('expr -> expr MINUS term','expr',3,'p_expr','parser_test.py',94),
+  ('expr -> term','expr',1,'p_expr','parser_test.py',95),
+  ('term -> term MULT factor','term',3,'p_term','parser_test.py',103),
+  ('term -> term DIV factor','term',3,'p_term','parser_test.py',104),
+  ('term -> factor','term',1,'p_term','parser_test.py',105),
+  ('factor -> NUMBER','factor',1,'p_factor','parser_test.py',110),
+  ('factor -> expr','factor',1,'p_factor','parser_test.py',111),
 ]

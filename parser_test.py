@@ -10,6 +10,7 @@ tokens = [
     "DIV",
     "LPAREN", 
     "RPAREN",
+    "COMMENT",
 ]
 
 #-------------------REGEX-RULES------------------------------
@@ -18,6 +19,9 @@ tokens = [
     like \aszfas 
     It consider its as tokens 
 ''' 
+#TODO:  add support for block comment 
+#def t_structed_comment(t): 
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*' #TODO: check regex var name rules
     return t
@@ -29,6 +33,7 @@ def t_NUMBER(t):
 
 # Set for simple regex rules for tokenizer
 t_ignore = ' \t' 
+t_ignore_COMMENT = r'\#.*'  
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MULT = r'\*'
@@ -47,26 +52,32 @@ def t_error(t):
     t.lexer.skip(1)
 
 #---------------------GRAMMAR-RULES------------------------------
+# list_stmt : list_stmt | stmt # This need to be re-consider 
 # stmt : expr 
 # expr : expr PLUS term
 #      | expr MINUS term 
 #      | term 
-# term : term MULT factor
+## term : term MULT factor
 #      | term DIV factor 
 #      | factor
 # factor : NUMBER
-#        | ( expr )            
+#        | '(' expr ')'            
 # TODO: consider to add identifier rule for factor?  
 
 
 
 #TODO: Add list_stmt 
-#TODO: Add stmt 
-
+# NOT WORKING 
+#def p_init_list(p): 
+#    ''' 
+#        init : init_list  
+#             | init
+#    ''' 
 #def p_list_stmt(p): 
 #    ''' 
 #        list_stmt : stmt
 #    ''' 
+
 
 def p_stmt(p): 
     '''
@@ -90,12 +101,19 @@ def p_term(p):
              | term DIV factor 
              | factor
     ''' 
-
+    if (len(p) == 2): 
+        p[0] = p[1] 
+    p[0] = ("term",p[0],p[1])
+        
 def p_factor(p):  
     ''' 
-        factor : NUMBER
+        factor : ID 
                | expr             
     ''' 
+
+# def p_error(p): 
+ 
+
 
 ## Testing lex
 #data = ''' 
@@ -110,26 +128,57 @@ def p_factor(p):
 #/asba
 #'''
 
-# Build lex 
-# lexer = lex.lex()
 
 
-# lexer.input(data)
+# Testing data for parser  
+data = '''
+32 + 10
+100 - 10
+42 / 50
+42 * 50
+# ignore this whole line 
+# ignore this line too 
+thisIsVariable
+''' 
 
 
-# Tokenize
+lex.lex(debug=True)
+# yacc.yacc(debug=True) 
+yacc.yacc() 
+result = yacc.parse(data) 
+print(result)
+
+
+## Build lex 
+#lexer = lex.lex()
+#lexer.input(data)
+## Tokenize
 #while True:
 #    tok = lexer.token()
 #    if not tok: 
 #        break      # No more input
 #    print(tok)
- 
-# Testing data for parser  
-data = '32 + 10' 
-lex.lex()
-yacc.yacc() 
-result = yacc.parse(data) 
-print(result)
+#
+
+#-------------------ABSTRACT SYNTAX TREE---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#----------------------------INTERPRETER---------------------------
+
+# class Interpreter(): 
+# 
 
 
 
