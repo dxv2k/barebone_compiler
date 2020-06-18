@@ -108,11 +108,14 @@ def p_term(p):
 def p_factor(p):  
     ''' 
         factor : ID 
-               | expr             
+               | '(' expr ')'             
     ''' 
 
-# def p_error(p): 
- 
+def p_error(p):
+    if p:
+        raise BaseException("Syntax error at line " + str(p.lineno))
+    else:
+        raise BaseException("Reached unexpected end of file.")
 
 
 ## Testing lex

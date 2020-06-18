@@ -1,8 +1,8 @@
 from ply import lex, yacc
 print('Import lex  and yacc successfully') 
 
-#-----------------------LEXER--------------------------------
 
+#-----------------------LEXER--------------------------------
 # List of tokens
 reserved = { 
     'init':'INIT', 
@@ -15,14 +15,33 @@ reserved = {
     "to":"TO", 
     "not":"NOT", 
 } 
-
 tokens = ["ID","NUMBER"] + list(reserved.values())
-literals = [';','='] # not sure this working 
+
+# tokens = [ 
+#     "ID", 
+#     "NUMBER", 
+#     "INIT", 
+#     "CLEAR", 
+#     "WHILE", 
+#     "DO", 
+#     "INCR", 
+#     "DECR", 
+#     "COPY", 
+#     "TO" 
+# ]
 
 # Regex rules for tokens 
 t_ignore = ' \t' 
 t_ignore_COMMENT = r'\#.*'  
- 
+#t_INIT = r'init' 
+#t_CLEAR = r'clear' 
+#t_WHILE = r'while' 
+#t_DO = r'do' 
+#t_INCR = r'incr' 
+#t_DECR = r'decr' 
+#t_COPY = r'copy' 
+#t_TO = r'TO' 
+
 def t_ID(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
     t.type = reserved.get(t.value,"ID")
@@ -41,32 +60,15 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0]) 
 
 
+
 #--------------------------YACC------------------------------------
 
-def p_program(p): 
+def p_expr(p): 
     ''' 
-        program : stmt_list | init_list stmt_list
-    ''' 
-
-def p_init_list(p): 
-    ''' 
-        init_list : init  | init_list init 
     ''' 
 
-def p_init(p): 
+def p_term(p): 
     ''' 
-       init : INIT ID '=' NUMBER ';'  
-    ''' 
-
-def p_stmt_list(p): 
-    ''' 
-        stmt_list : stmt | stmt_list stmt
-    ''' 
-
-def p_stmt(p): 
-    ''' 
-        stmt : clear_stmt | incr_stmt | decr_stmt | while_stmt 
-             | copy_stmt
     ''' 
 
 def p_factor(p): 
@@ -75,35 +77,10 @@ def p_factor(p):
                | NUMBER
     ''' 
 
-def p_clear_stmt(p): 
-    ''' 
-        clear_stmt : CLEAR ID ';'
-    ''' 
-
-def p_incr_stmt(p): 
-    ''' 
-        incr_stmt : INCR ID ';' 
-    ''' 
-
-def p_decr_stmt(p): 
-    ''' 
-        decr_stmt : DECR ID ';' 
-    ''' 
-
-def p_while_stmt(p): 
-    ''' 
-        while_stmt : WHILE ID NOT NUMBER DO stmt_list ';'
-    '''
-
-def p_copy_stmt(p): 
-    ''' 
-        copy_stmt : COPY ID TO ID ';'
-    ''' 
-
 
 # TODO: Add p_error()
-def p_error(p): 
-    print("Syntax error input")
+# def p_error(p): 
+
 
 #Testing lexer 
 data = '''
@@ -115,8 +92,6 @@ decr X
 # Ignore this line too
 while X not 0 do  
 not
-; 
-= 
 ''' 
 
 lexer = lex.lex() 

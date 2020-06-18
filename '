@@ -1,8 +1,8 @@
 from ply import lex, yacc
 print('Import lex  and yacc successfully') 
 
-#-----------------------LEXER--------------------------------
 
+#-----------------------LEXER--------------------------------
 # List of tokens
 reserved = { 
     'init':'INIT', 
@@ -41,32 +41,14 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0]) 
 
 
+
 #--------------------------YACC------------------------------------
 
-def p_program(p): 
-    ''' 
-        program : stmt_list | init_list stmt_list
-    ''' 
 
-def p_init_list(p): 
-    ''' 
-        init_list : init  | init_list init 
-    ''' 
-
-def p_init(p): 
-    ''' 
-       init : INIT ID '=' NUMBER ';'  
-    ''' 
-
-def p_stmt_list(p): 
-    ''' 
-        stmt_list : stmt | stmt_list stmt
-    ''' 
 
 def p_stmt(p): 
     ''' 
-        stmt : clear_stmt | incr_stmt | decr_stmt | while_stmt 
-             | copy_stmt
+
     ''' 
 
 def p_factor(p): 
@@ -75,35 +57,9 @@ def p_factor(p):
                | NUMBER
     ''' 
 
-def p_clear_stmt(p): 
-    ''' 
-        clear_stmt : CLEAR ID ';'
-    ''' 
-
-def p_incr_stmt(p): 
-    ''' 
-        incr_stmt : INCR ID ';' 
-    ''' 
-
-def p_decr_stmt(p): 
-    ''' 
-        decr_stmt : DECR ID ';' 
-    ''' 
-
-def p_while_stmt(p): 
-    ''' 
-        while_stmt : WHILE ID NOT NUMBER DO stmt_list ';'
-    '''
-
-def p_copy_stmt(p): 
-    ''' 
-        copy_stmt : COPY ID TO ID ';'
-    ''' 
-
-
 # TODO: Add p_error()
-def p_error(p): 
-    print("Syntax error input")
+# def p_error(p): 
+#     print("Syntax error input")
 
 #Testing lexer 
 data = '''

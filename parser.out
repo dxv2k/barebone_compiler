@@ -1,0 +1,267 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    LPAREN
+    NUMBER
+    RPAREN
+
+Grammar
+
+Rule 0     S' -> stmt
+Rule 1     stmt -> expr
+Rule 2     expr -> expr PLUS term
+Rule 3     expr -> expr MINUS term
+Rule 4     expr -> term
+Rule 5     term -> term MULT factor
+Rule 6     term -> term DIV factor
+Rule 7     term -> factor
+Rule 8     factor -> ID
+Rule 9     factor -> ( expr )
+
+Terminals, with rules where they appear
+
+(                    : 9
+)                    : 9
+COMMENT              : 
+DIV                  : 6
+ID                   : 8
+LPAREN               : 
+MINUS                : 3
+MULT                 : 5
+NUMBER               : 
+PLUS                 : 2
+RPAREN               : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+expr                 : 1 2 3 9
+factor               : 5 6 7
+stmt                 : 0
+term                 : 2 3 4 5 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . stmt
+    (1) stmt -> . expr
+    (2) expr -> . expr PLUS term
+    (3) expr -> . expr MINUS term
+    (4) expr -> . term
+    (5) term -> . term MULT factor
+    (6) term -> . term DIV factor
+    (7) term -> . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    stmt                           shift and go to state 1
+    expr                           shift and go to state 2
+    term                           shift and go to state 3
+    factor                         shift and go to state 4
+
+state 1
+
+    (0) S' -> stmt .
+
+
+
+state 2
+
+    (1) stmt -> expr .
+    (2) expr -> expr . PLUS term
+    (3) expr -> expr . MINUS term
+
+    $end            reduce using rule 1 (stmt -> expr .)
+    PLUS            shift and go to state 7
+    MINUS           shift and go to state 8
+
+
+state 3
+
+    (4) expr -> term .
+    (5) term -> term . MULT factor
+    (6) term -> term . DIV factor
+
+    PLUS            reduce using rule 4 (expr -> term .)
+    MINUS           reduce using rule 4 (expr -> term .)
+    $end            reduce using rule 4 (expr -> term .)
+    )               reduce using rule 4 (expr -> term .)
+    MULT            shift and go to state 9
+    DIV             shift and go to state 10
+
+
+state 4
+
+    (7) term -> factor .
+
+    MULT            reduce using rule 7 (term -> factor .)
+    DIV             reduce using rule 7 (term -> factor .)
+    PLUS            reduce using rule 7 (term -> factor .)
+    MINUS           reduce using rule 7 (term -> factor .)
+    $end            reduce using rule 7 (term -> factor .)
+    )               reduce using rule 7 (term -> factor .)
+
+
+state 5
+
+    (8) factor -> ID .
+
+    MULT            reduce using rule 8 (factor -> ID .)
+    DIV             reduce using rule 8 (factor -> ID .)
+    PLUS            reduce using rule 8 (factor -> ID .)
+    MINUS           reduce using rule 8 (factor -> ID .)
+    $end            reduce using rule 8 (factor -> ID .)
+    )               reduce using rule 8 (factor -> ID .)
+
+
+state 6
+
+    (9) factor -> ( . expr )
+    (2) expr -> . expr PLUS term
+    (3) expr -> . expr MINUS term
+    (4) expr -> . term
+    (5) term -> . term MULT factor
+    (6) term -> . term DIV factor
+    (7) term -> . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    expr                           shift and go to state 11
+    term                           shift and go to state 3
+    factor                         shift and go to state 4
+
+state 7
+
+    (2) expr -> expr PLUS . term
+    (5) term -> . term MULT factor
+    (6) term -> . term DIV factor
+    (7) term -> . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    term                           shift and go to state 12
+    factor                         shift and go to state 4
+
+state 8
+
+    (3) expr -> expr MINUS . term
+    (5) term -> . term MULT factor
+    (6) term -> . term DIV factor
+    (7) term -> . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    term                           shift and go to state 13
+    factor                         shift and go to state 4
+
+state 9
+
+    (5) term -> term MULT . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    factor                         shift and go to state 14
+
+state 10
+
+    (6) term -> term DIV . factor
+    (8) factor -> . ID
+    (9) factor -> . ( expr )
+
+    ID              shift and go to state 5
+    (               shift and go to state 6
+
+    factor                         shift and go to state 15
+
+state 11
+
+    (9) factor -> ( expr . )
+    (2) expr -> expr . PLUS term
+    (3) expr -> expr . MINUS term
+
+    )               shift and go to state 16
+    PLUS            shift and go to state 7
+    MINUS           shift and go to state 8
+
+
+state 12
+
+    (2) expr -> expr PLUS term .
+    (5) term -> term . MULT factor
+    (6) term -> term . DIV factor
+
+    PLUS            reduce using rule 2 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 2 (expr -> expr PLUS term .)
+    $end            reduce using rule 2 (expr -> expr PLUS term .)
+    )               reduce using rule 2 (expr -> expr PLUS term .)
+    MULT            shift and go to state 9
+    DIV             shift and go to state 10
+
+
+state 13
+
+    (3) expr -> expr MINUS term .
+    (5) term -> term . MULT factor
+    (6) term -> term . DIV factor
+
+    PLUS            reduce using rule 3 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 3 (expr -> expr MINUS term .)
+    $end            reduce using rule 3 (expr -> expr MINUS term .)
+    )               reduce using rule 3 (expr -> expr MINUS term .)
+    MULT            shift and go to state 9
+    DIV             shift and go to state 10
+
+
+state 14
+
+    (5) term -> term MULT factor .
+
+    MULT            reduce using rule 5 (term -> term MULT factor .)
+    DIV             reduce using rule 5 (term -> term MULT factor .)
+    PLUS            reduce using rule 5 (term -> term MULT factor .)
+    MINUS           reduce using rule 5 (term -> term MULT factor .)
+    $end            reduce using rule 5 (term -> term MULT factor .)
+    )               reduce using rule 5 (term -> term MULT factor .)
+
+
+state 15
+
+    (6) term -> term DIV factor .
+
+    MULT            reduce using rule 6 (term -> term DIV factor .)
+    DIV             reduce using rule 6 (term -> term DIV factor .)
+    PLUS            reduce using rule 6 (term -> term DIV factor .)
+    MINUS           reduce using rule 6 (term -> term DIV factor .)
+    $end            reduce using rule 6 (term -> term DIV factor .)
+    )               reduce using rule 6 (term -> term DIV factor .)
+
+
+state 16
+
+    (9) factor -> ( expr ) .
+
+    MULT            reduce using rule 9 (factor -> ( expr ) .)
+    DIV             reduce using rule 9 (factor -> ( expr ) .)
+    PLUS            reduce using rule 9 (factor -> ( expr ) .)
+    MINUS           reduce using rule 9 (factor -> ( expr ) .)
+    $end            reduce using rule 9 (factor -> ( expr ) .)
+    )               reduce using rule 9 (factor -> ( expr ) .)
+

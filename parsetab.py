@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COMMENT DIV ID LPAREN MINUS MULT NUMBER PLUS RPAREN\n        stmt : expr\n    \n        expr : expr PLUS term\n             | expr MINUS term \n             | term \n     \n        term : term MULT factor\n             | term DIV factor \n             | factor\n     \n        factor : NUMBER\n               | expr             \n    '
+_lr_signature = "COMMENT DIV ID LPAREN MINUS MULT NUMBER PLUS RPAREN\n        stmt : expr\n    \n        expr : expr PLUS term\n             | expr MINUS term \n             | term \n     \n        term : term MULT factor\n             | term DIV factor \n             | factor\n     \n        factor : ID \n               | '(' expr ')'             \n    "
     
-_lr_action_items = {'NUMBER':([0,6,7,8,9,],[5,5,5,5,5,]),'$end':([1,2,3,4,5,10,11,12,13,14,],[0,-1,-4,-7,-8,-9,-2,-3,-5,-6,]),'PLUS':([2,3,4,5,10,11,12,13,14,],[6,-4,-7,-8,6,-2,-3,-5,-6,]),'MINUS':([2,3,4,5,10,11,12,13,14,],[7,-4,-7,-8,7,-2,-3,-5,-6,]),'MULT':([2,3,4,5,10,11,12,13,14,],[-9,8,-7,-8,-9,8,8,-5,-6,]),'DIV':([2,3,4,5,10,11,12,13,14,],[-9,9,-7,-8,-9,9,9,-5,-6,]),}
+_lr_action_items = {'ID':([0,6,7,8,9,10,],[5,5,5,5,5,5,]),'(':([0,6,7,8,9,10,],[6,6,6,6,6,6,]),'$end':([1,2,3,4,5,12,13,14,15,16,],[0,-1,-4,-7,-8,-2,-3,-5,-6,-9,]),'PLUS':([2,3,4,5,11,12,13,14,15,16,],[7,-4,-7,-8,7,-2,-3,-5,-6,-9,]),'MINUS':([2,3,4,5,11,12,13,14,15,16,],[8,-4,-7,-8,8,-2,-3,-5,-6,-9,]),')':([3,4,5,11,12,13,14,15,16,],[-4,-7,-8,16,-2,-3,-5,-6,-9,]),'MULT':([3,4,5,12,13,14,15,16,],[9,-7,-8,9,9,-5,-6,-9,]),'DIV':([3,4,5,12,13,14,15,16,],[10,-7,-8,10,10,-5,-6,-9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'stmt':([0,],[1,]),'expr':([0,6,7,8,9,],[2,10,10,10,10,]),'term':([0,6,7,8,9,],[3,11,12,3,3,]),'factor':([0,6,7,8,9,],[4,4,4,13,14,]),}
+_lr_goto_items = {'stmt':([0,],[1,]),'expr':([0,6,],[2,11,]),'term':([0,6,7,8,],[3,3,12,13,]),'factor':([0,6,7,8,9,10,],[4,4,4,4,14,15,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,13 +27,13 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> expr','stmt',1,'p_stmt','parser_test.py',87),
-  ('expr -> expr PLUS term','expr',3,'p_expr','parser_test.py',93),
-  ('expr -> expr MINUS term','expr',3,'p_expr','parser_test.py',94),
-  ('expr -> term','expr',1,'p_expr','parser_test.py',95),
-  ('term -> term MULT factor','term',3,'p_term','parser_test.py',103),
-  ('term -> term DIV factor','term',3,'p_term','parser_test.py',104),
-  ('term -> factor','term',1,'p_term','parser_test.py',105),
-  ('factor -> NUMBER','factor',1,'p_factor','parser_test.py',110),
-  ('factor -> expr','factor',1,'p_factor','parser_test.py',111),
+  ('stmt -> expr','stmt',1,'p_stmt','parser_test.py',84),
+  ('expr -> expr PLUS term','expr',3,'p_expr','parser_test.py',90),
+  ('expr -> expr MINUS term','expr',3,'p_expr','parser_test.py',91),
+  ('expr -> term','expr',1,'p_expr','parser_test.py',92),
+  ('term -> term MULT factor','term',3,'p_term','parser_test.py',100),
+  ('term -> term DIV factor','term',3,'p_term','parser_test.py',101),
+  ('term -> factor','term',1,'p_term','parser_test.py',102),
+  ('factor -> ID','factor',1,'p_factor','parser_test.py',110),
+  ('factor -> ( expr )','factor',3,'p_factor','parser_test.py',111),
 ]
