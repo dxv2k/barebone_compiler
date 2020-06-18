@@ -102,8 +102,8 @@ def p_copy_stmt(p):
 
 
 # TODO: Add p_error()
-def p_error(p): 
-    print("Syntax error input")
+#def p_error(p): 
+#    print("Syntax error input")
 
 #Testing lexer 
 data = '''
