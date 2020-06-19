@@ -43,62 +43,84 @@ def t_error(t):
 
 #--------------------------YACC------------------------------------
 
-def p_program(p): 
-    ''' 
-        program : stmt_list | init_list stmt_list
-    ''' 
+# def p_program(p): 
+#     ''' 
+#         program : stmt_list | init_list stmt_list
+#     ''' 
 
-def p_init_list(p): 
-    ''' 
-        init_list : init  | init_list init 
-    ''' 
+# def p_init_list(p): 
+#     ''' 
+#         init_list : init  | init_list init 
+#     ''' 
 
-def p_init(p): 
-    ''' 
-       init : INIT ID '=' NUMBER ';'  
-    ''' 
+# def p_init(p): 
+#     ''' 
+#        init : INIT ID '=' NUMBER ';'  
+#     ''' 
 
-def p_stmt_list(p): 
-    ''' 
-        stmt_list : stmt | stmt_list stmt
-    ''' 
+# def p_stmt_list(p): 
+#     ''' 
+#         stmt_list : stmt | stmt_list stmt
+#     ''' 
 
-def p_stmt(p): 
-    ''' 
-        stmt : clear_stmt | incr_stmt | decr_stmt | while_stmt 
-             | copy_stmt
-    ''' 
+# Full rule of grammar 
+# def p_stmt(p): 
+#     ''' 
+#         stmt : clear_stmt | incr_stmt | decr_stmt | while_stmt | copy_stmt
+#     ''' 
+
+# def p_factor(p): 
+#     ''' 
+#         factor : ID
+#                | NUMBER
+#     ''' 
+
+# def p_clear_stmt(p): 
+#     ''' 
+#         clear_stmt : CLEAR ID ';'
+#     ''' 
+
+# def p_incr_stmt(p): 
+#     ''' 
+#         incr_stmt : INCR ID ';' 
+#     ''' 
+
+# def p_decr_stmt(p): 
+#     ''' 
+#         decr_stmt : DECR ID ';' 
+#     ''' 
+
+# def p_while_stmt(p): 
+#     ''' 
+#         while_stmt : WHILE ID NOT NUMBER DO stmt_list ';'
+#     '''
+
+# def p_copy_stmt(p): 
+#     ''' 
+#         copy_stmt : COPY ID TO ID ';'
+#     ''' 
 
 def p_factor(p): 
     ''' 
-        factor : ID
-               | NUMBER
+        factor : NUMBER | ID 
     ''' 
 
-def p_clear_stmt(p): 
-    ''' 
-        clear_stmt : CLEAR ID ';'
-    ''' 
 
-def p_incr_stmt(p): 
-    ''' 
-        incr_stmt : INCR ID ';' 
-    ''' 
+def p_error(p): 
+    if p:
+        print("error at line ",p.lineno)
+        # print('Syntax error at line' )
+    else: 
+        print('Reached unexpected EOF')
 
-def p_decr_stmt(p): 
-    ''' 
-        decr_stmt : DECR ID ';' 
-    ''' 
+data = '1' 
 
-def p_while_stmt(p): 
-    ''' 
-        while_stmt : WHILE ID NOT NUMBER DO stmt_list ';'
-    '''
+lex.lex(debug=True) 
+# yacc.yacc(debug=True) 
+yacc.yacc() 
+result = yacc.parse(data)
+print(result)
 
-def p_copy_stmt(p): 
-    ''' 
-        copy_stmt : COPY ID TO ID ';'
-    ''' 
 
 
 # TODO: Add p_error()
@@ -106,26 +128,53 @@ def p_copy_stmt(p):
 #    print("Syntax error input")
 
 #Testing lexer 
-data = '''
-12 
-thisIsVariable
-incr X 
-decr X
-# Ignore this line
-# Ignore this line too
-while X not 0 do  
-not
-; 
-= 
-''' 
+# data = '''
+# 12 
+# thisIsVariable
+# incr X 
+# decr X
+# # Ignore this line
+# # Ignore this line too
+# while X not 0 do  
+# not
+# ; 
+# = 
+# ''' 
 
-lexer = lex.lex() 
-lexer.input(data) 
-while True: 
-    current_token = lexer.token() 
-    if not current_token: 
-        break 
-    print(current_token)
+# lexer = lex.lex() 
+# lexer.input(data) 
+# while True: 
+#     current_token = lexer.token() 
+#     if not current_token: 
+#         break 
+#     print(current_token)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#------------------------INTERPRETER-------------------------
+# class INTERPRETER(): 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
