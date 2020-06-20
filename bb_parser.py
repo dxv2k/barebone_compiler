@@ -16,8 +16,8 @@ reserved = {
     "not":"NOT", 
 } 
 
-tokens = ["ID","NUMBER"] + list(reserved.values())
-literals = [';','='] # not sure this working 
+tokens = ["IDENT","NUMBER"] + list(reserved.values())
+literals = [';','='] 
 
 # Regex rules for tokens 
 t_ignore = ' \t' 
@@ -25,7 +25,7 @@ t_ignore_COMMENT = r'\#.*'
  
 def t_ID(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    t.type = reserved.get(t.value,"ID")
+    t.type = reserved.get(t.value,"IDENT")
     return t 
 
 def t_NUMBER(t): 
@@ -43,81 +43,54 @@ def t_error(t):
 
 #--------------------------YACC------------------------------------
 
-# def p_program(p): 
-#     ''' 
-#         program : stmt_list | init_list stmt_list
-#     ''' 
+def p_stmt(p): 
+    ''' 
+        stmt : clear_stmt 
+             | incr_stmt
+    ''' 
 
-# def p_init_list(p): 
-#     ''' 
-#         init_list : init  | init_list init 
-#     ''' 
+def p_clear_stmt(p): 
+    ''' 
+        clear_stmt : CLEAR IDENT ';'
+    ''' 
 
-# def p_init(p): 
-#     ''' 
-#        init : INIT ID '=' NUMBER ';'  
-#     ''' 
-
-# def p_stmt_list(p): 
-#     ''' 
-#         stmt_list : stmt | stmt_list stmt
-#     ''' 
-
-# Full rule of grammar 
-# def p_stmt(p): 
-#     ''' 
-#         stmt : clear_stmt | incr_stmt | decr_stmt | while_stmt | copy_stmt
-#     ''' 
+def p_incr_stmt(p): 
+    ''' 
+        incr_stmt : INCR IDENT ';'
+    '''
 
 # def p_factor(p): 
 #     ''' 
-#         factor : ID
-#                | NUMBER
+#         factor : NUMBER 
+#                | IDENT 
 #     ''' 
-
-# def p_clear_stmt(p): 
-#     ''' 
-#         clear_stmt : CLEAR ID ';'
-#     ''' 
-
-# def p_incr_stmt(p): 
-#     ''' 
-#         incr_stmt : INCR ID ';' 
-#     ''' 
-
-# def p_decr_stmt(p): 
-#     ''' 
-#         decr_stmt : DECR ID ';' 
-#     ''' 
-
-# def p_while_stmt(p): 
-#     ''' 
-#         while_stmt : WHILE ID NOT NUMBER DO stmt_list ';'
-#     '''
-
-# def p_copy_stmt(p): 
-#     ''' 
-#         copy_stmt : COPY ID TO ID ';'
-#     ''' 
-
-def p_factor(p): 
-    ''' 
-        factor : NUMBER | ID 
-    ''' 
-
 
 def p_error(p): 
     if p:
-        print("error at line ",p.lineno)
+        print("Syntax error at line",p.lineno)
         # print('Syntax error at line' )
     else: 
         print('Reached unexpected EOF')
 
-data = '1' 
 
-lex.lex(debug=True) 
+
+data = '''
+clear X;
+incr X;
+hello 
+''' 
+
+# lex.lex(debug=True) 
 # yacc.yacc(debug=True) 
-yacc.yacc() 
+lexer = lex.lex(debug=True) 
+lexer.input(data) 
+while True: 
+    current_token = lexer.token() 
+    if not current_token: 
+        break 
+    print(current_token)
+
+yacc.yacc(debug=True) 
 result = yacc.parse(data)
 print(result)
 

@@ -1,0 +1,121 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COPY
+    DECR
+    DO
+    INIT
+    NOT
+    NUMBER
+    TO
+    WHILE
+
+Grammar
+
+Rule 0     S' -> stmt
+Rule 1     stmt -> clear_stmt
+Rule 2     stmt -> incr_stmt
+Rule 3     clear_stmt -> CLEAR IDENT ;
+Rule 4     incr_stmt -> INCR IDENT ;
+
+Terminals, with rules where they appear
+
+;                    : 3 4
+CLEAR                : 3
+COPY                 : 
+DECR                 : 
+DO                   : 
+IDENT                : 3 4
+INCR                 : 4
+INIT                 : 
+NOT                  : 
+NUMBER               : 
+TO                   : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+clear_stmt           : 1
+incr_stmt            : 2
+stmt                 : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . stmt
+    (1) stmt -> . clear_stmt
+    (2) stmt -> . incr_stmt
+    (3) clear_stmt -> . CLEAR IDENT ;
+    (4) incr_stmt -> . INCR IDENT ;
+
+    CLEAR           shift and go to state 4
+    INCR            shift and go to state 5
+
+    stmt                           shift and go to state 1
+    clear_stmt                     shift and go to state 2
+    incr_stmt                      shift and go to state 3
+
+state 1
+
+    (0) S' -> stmt .
+
+
+
+state 2
+
+    (1) stmt -> clear_stmt .
+
+    $end            reduce using rule 1 (stmt -> clear_stmt .)
+
+
+state 3
+
+    (2) stmt -> incr_stmt .
+
+    $end            reduce using rule 2 (stmt -> incr_stmt .)
+
+
+state 4
+
+    (3) clear_stmt -> CLEAR . IDENT ;
+
+    IDENT           shift and go to state 6
+
+
+state 5
+
+    (4) incr_stmt -> INCR . IDENT ;
+
+    IDENT           shift and go to state 7
+
+
+state 6
+
+    (3) clear_stmt -> CLEAR IDENT . ;
+
+    ;               shift and go to state 8
+
+
+state 7
+
+    (4) incr_stmt -> INCR IDENT . ;
+
+    ;               shift and go to state 9
+
+
+state 8
+
+    (3) clear_stmt -> CLEAR IDENT ; .
+
+    $end            reduce using rule 3 (clear_stmt -> CLEAR IDENT ; .)
+
+
+state 9
+
+    (4) incr_stmt -> INCR IDENT ; .
+
+    $end            reduce using rule 4 (incr_stmt -> INCR IDENT ; .)
+

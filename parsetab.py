@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CLEAR COPY DECR DO ID INCR INIT NOT NUMBER TO WHILE \n        factor : NUMBER \n    '
+_lr_signature = "CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : clear_stmt \n             | incr_stmt\n     \n        clear_stmt : CLEAR IDENT ';'\n     \n        incr_stmt : INCR IDENT ';'\n    "
     
-_lr_action_items = {'NUMBER':([0,],[2,]),'$end':([1,2,],[0,-1,]),}
+_lr_action_items = {'CLEAR':([0,],[4,]),'INCR':([0,],[5,]),'$end':([1,2,3,8,9,],[0,-1,-2,-3,-4,]),'IDENT':([4,5,],[6,7,]),';':([6,7,],[8,9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'factor':([0,],[1,]),}
+_lr_goto_items = {'stmt':([0,],[1,]),'clear_stmt':([0,],[2,]),'incr_stmt':([0,],[3,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,6 +26,9 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> factor","S'",1,None,None,None),
-  ('factor -> NUMBER','factor',1,'p_factor','bb_parser.py',105),
+  ("S' -> stmt","S'",1,None,None,None),
+  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',48),
+  ('stmt -> incr_stmt','stmt',1,'p_stmt','bb_parser.py',49),
+  ('clear_stmt -> CLEAR IDENT ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',54),
+  ('incr_stmt -> INCR IDENT ;','incr_stmt',3,'p_incr_stmt','bb_parser.py',59),
 ]
