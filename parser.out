@@ -7,7 +7,6 @@ Unused terminals:
     DO
     INIT
     NOT
-    NUMBER
     TO
     WHILE
 
@@ -18,6 +17,8 @@ Rule 1     stmt -> clear_stmt
 Rule 2     stmt -> incr_stmt
 Rule 3     clear_stmt -> CLEAR IDENT ;
 Rule 4     incr_stmt -> INCR IDENT ;
+Rule 5     factor -> NUMBER
+Rule 6     factor -> IDENT
 
 Terminals, with rules where they appear
 
@@ -26,11 +27,11 @@ CLEAR                : 3
 COPY                 : 
 DECR                 : 
 DO                   : 
-IDENT                : 3 4
+IDENT                : 3 4 6
 INCR                 : 4
 INIT                 : 
 NOT                  : 
-NUMBER               : 
+NUMBER               : 5
 TO                   : 
 WHILE                : 
 error                : 
@@ -38,6 +39,7 @@ error                :
 Nonterminals, with rules where they appear
 
 clear_stmt           : 1
+factor               : 
 incr_stmt            : 2
 stmt                 : 0
 

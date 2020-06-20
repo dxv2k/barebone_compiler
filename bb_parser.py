@@ -59,18 +59,18 @@ def p_incr_stmt(p):
         incr_stmt : INCR IDENT ';'
     '''
 
-# def p_factor(p): 
-#     ''' 
-#         factor : NUMBER 
-#                | IDENT 
-#     ''' 
+def p_factor(p): 
+    ''' 
+        factor : NUMBER 
+               | IDENT 
+    ''' 
 
-def p_error(p): 
-    if p:
-        print("Syntax error at line",p.lineno)
-        # print('Syntax error at line' )
-    else: 
-        print('Reached unexpected EOF')
+#def p_error(p): 
+#    if p:
+#        print("Syntax error at line",p.lineno)
+#        # print('Syntax error at line' )
+#    else: 
+#        print('Reached unexpected EOF')
 
 
 
