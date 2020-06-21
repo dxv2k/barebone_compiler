@@ -2,11 +2,12 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
+    0
     COPY
-    DECR
     DO
     INIT
     NOT
+    NUMBER
     TO
     WHILE
 
@@ -15,23 +16,25 @@ Grammar
 Rule 0     S' -> stmt
 Rule 1     stmt -> clear_stmt
 Rule 2     stmt -> incr_stmt
-Rule 3     clear_stmt -> CLEAR IDENT ;
-Rule 4     incr_stmt -> INCR IDENT ;
-Rule 5     factor -> NUMBER
-Rule 6     factor -> IDENT
+Rule 3     stmt -> decr_stmt
+Rule 4     var -> IDENT
+Rule 5     clear_stmt -> CLEAR var ;
+Rule 6     incr_stmt -> INCR var ;
+Rule 7     decr_stmt -> DECR var ;
 
 Terminals, with rules where they appear
 
-;                    : 3 4
-CLEAR                : 3
+0                    : 
+;                    : 5 6 7
+CLEAR                : 5
 COPY                 : 
-DECR                 : 
+DECR                 : 7
 DO                   : 
-IDENT                : 3 4 6
-INCR                 : 4
+IDENT                : 4
+INCR                 : 6
 INIT                 : 
 NOT                  : 
-NUMBER               : 5
+NUMBER               : 
 TO                   : 
 WHILE                : 
 error                : 
@@ -39,9 +42,10 @@ error                :
 Nonterminals, with rules where they appear
 
 clear_stmt           : 1
-factor               : 
+decr_stmt            : 3
 incr_stmt            : 2
 stmt                 : 0
+var                  : 5 6 7
 
 Parsing method: LALR
 
@@ -50,15 +54,19 @@ state 0
     (0) S' -> . stmt
     (1) stmt -> . clear_stmt
     (2) stmt -> . incr_stmt
-    (3) clear_stmt -> . CLEAR IDENT ;
-    (4) incr_stmt -> . INCR IDENT ;
+    (3) stmt -> . decr_stmt
+    (5) clear_stmt -> . CLEAR var ;
+    (6) incr_stmt -> . INCR var ;
+    (7) decr_stmt -> . DECR var ;
 
-    CLEAR           shift and go to state 4
-    INCR            shift and go to state 5
+    CLEAR           shift and go to state 5
+    INCR            shift and go to state 6
+    DECR            shift and go to state 7
 
     stmt                           shift and go to state 1
     clear_stmt                     shift and go to state 2
     incr_stmt                      shift and go to state 3
+    decr_stmt                      shift and go to state 4
 
 state 1
 
@@ -82,42 +90,83 @@ state 3
 
 state 4
 
-    (3) clear_stmt -> CLEAR . IDENT ;
+    (3) stmt -> decr_stmt .
 
-    IDENT           shift and go to state 6
+    $end            reduce using rule 3 (stmt -> decr_stmt .)
 
 
 state 5
 
-    (4) incr_stmt -> INCR . IDENT ;
+    (5) clear_stmt -> CLEAR . var ;
+    (4) var -> . IDENT
 
-    IDENT           shift and go to state 7
+    IDENT           shift and go to state 9
 
+    var                            shift and go to state 8
 
 state 6
 
-    (3) clear_stmt -> CLEAR IDENT . ;
+    (6) incr_stmt -> INCR . var ;
+    (4) var -> . IDENT
 
-    ;               shift and go to state 8
+    IDENT           shift and go to state 9
 
+    var                            shift and go to state 10
 
 state 7
 
-    (4) incr_stmt -> INCR IDENT . ;
+    (7) decr_stmt -> DECR . var ;
+    (4) var -> . IDENT
 
-    ;               shift and go to state 9
+    IDENT           shift and go to state 9
 
+    var                            shift and go to state 11
 
 state 8
 
-    (3) clear_stmt -> CLEAR IDENT ; .
+    (5) clear_stmt -> CLEAR var . ;
 
-    $end            reduce using rule 3 (clear_stmt -> CLEAR IDENT ; .)
+    ;               shift and go to state 12
 
 
 state 9
 
-    (4) incr_stmt -> INCR IDENT ; .
+    (4) var -> IDENT .
 
-    $end            reduce using rule 4 (incr_stmt -> INCR IDENT ; .)
+    ;               reduce using rule 4 (var -> IDENT .)
+
+
+state 10
+
+    (6) incr_stmt -> INCR var . ;
+
+    ;               shift and go to state 13
+
+
+state 11
+
+    (7) decr_stmt -> DECR var . ;
+
+    ;               shift and go to state 14
+
+
+state 12
+
+    (5) clear_stmt -> CLEAR var ; .
+
+    $end            reduce using rule 5 (clear_stmt -> CLEAR var ; .)
+
+
+state 13
+
+    (6) incr_stmt -> INCR var ; .
+
+    $end            reduce using rule 6 (incr_stmt -> INCR var ; .)
+
+
+state 14
+
+    (7) decr_stmt -> DECR var ; .
+
+    $end            reduce using rule 7 (decr_stmt -> DECR var ; .)
 

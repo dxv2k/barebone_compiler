@@ -4,6 +4,7 @@ print('Import lex  and yacc successfully')
 #-----------------------LEXER--------------------------------
 
 # List of tokens
+# Reserved keywords 
 reserved = { 
     'init':'INIT', 
     'clear':'CLEAR', 
@@ -13,24 +14,32 @@ reserved = {
     "decr":"DECR", 
     "copy":"COPY", 
     "to":"TO", 
-    "not":"NOT", 
+    "not":"NOT",
+    "NULL":"0",
 } 
 
 tokens = ["IDENT","NUMBER"] + list(reserved.values())
 literals = [';','='] 
 
 # Regex rules for tokens 
-t_ignore = ' \t' 
-t_ignore_COMMENT = r'\#.*'  
- 
-def t_ID(t): 
+t_ignore = ' \t\n' # Ignore space,tabs and newline 
+t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
+
+# Rule for identifier (name)
+def t_IDENT(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    t.type = reserved.get(t.value,"IDENT")
+    # Not sure this line below 
+    t.type = reserved.get(t.value,"IDENT") 
     return t 
 
 def t_NUMBER(t): 
     r'\d+' 
     t.value = int(t.value) 
+    try: 
+        t.value = int(t.value)
+    except ValueError: 
+        print("Integer value to large %s" % t.value) 
+        t.value = 0
     return t 
 
 def t_newline(t): 
@@ -39,66 +48,77 @@ def t_newline(t):
 
 def t_error(t): 
     print("Illegal character '%s'" % t.value[0]) 
-
+    t.lexer.skip(1)
 
 #--------------------------YACC------------------------------------
+
+
+# def p_init_list_stmt(p): 
+#     ''' 
+#         init_list_stmt : init_stmt
+#                        | init_list stmt_list
+#     ''' 
+
+# def p_init_stmt(p): 
+#     ''' 
+#         init_stmt : INIT var '=' NUMBER ';'
+#     ''' 
+
+# def p_stmt_list(p): 
+#     ''' 
+#         stmt_list : stmt
+#                   | stmt_list stmt 
+#     ''' 
 
 def p_stmt(p): 
     ''' 
         stmt : clear_stmt 
-             | incr_stmt
+             | incr_stmt 
+             | decr_stmt
     ''' 
+
+def p_var(p): 
+    ''' 
+        var : IDENT 
+    '''
 
 def p_clear_stmt(p): 
     ''' 
-        clear_stmt : CLEAR IDENT ';'
+        clear_stmt : CLEAR var ';'
     ''' 
 
 def p_incr_stmt(p): 
     ''' 
-        incr_stmt : INCR IDENT ';'
-    '''
-
-def p_factor(p): 
-    ''' 
-        factor : NUMBER 
-               | IDENT 
+        incr_stmt : INCR var ';'
     ''' 
 
-#def p_error(p): 
-#    if p:
-#        print("Syntax error at line",p.lineno)
-#        # print('Syntax error at line' )
-#    else: 
-#        print('Reached unexpected EOF')
+def p_decr_stmt(p): 
+    ''' 
+        decr_stmt : DECR var ';'
+    ''' 
+
+# TODO: TEST NEW ERROR CATCHING FUNCTION IN PARSER
+def p_error(p): 
+    if p: 
+        print("Syntax error at '%s'" % p.value)
+    else: 
+        print("Syntax error at EOF")
 
 
-
-data = '''
-clear X;
-incr X;
-hello 
+# Input testing 
+data = ''' 
+CLEAR X; 
+INCR X; 
 ''' 
-
-# lex.lex(debug=True) 
-# yacc.yacc(debug=True) 
+yacc.yacc(debug=True) 
 lexer = lex.lex(debug=True) 
 lexer.input(data) 
-while True: 
-    current_token = lexer.token() 
-    if not current_token: 
-        break 
-    print(current_token)
-
 yacc.yacc(debug=True) 
 result = yacc.parse(data)
 print(result)
 
 
 
-# TODO: Add p_error()
-#def p_error(p): 
-#    print("Syntax error input")
 
 #Testing lexer 
 # data = '''

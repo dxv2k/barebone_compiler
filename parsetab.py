@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : clear_stmt \n             | incr_stmt\n     \n        clear_stmt : CLEAR IDENT ';'\n     \n        incr_stmt : INCR IDENT ';'\n     \n        factor : NUMBER \n               | IDENT \n    "
+_lr_signature = "0 CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : clear_stmt \n             | incr_stmt \n             | decr_stmt\n     \n        var : IDENT \n     \n        clear_stmt : CLEAR var ';'\n     \n        incr_stmt : INCR var ';'\n     \n        decr_stmt : DECR var ';'\n    "
     
-_lr_action_items = {'CLEAR':([0,],[4,]),'INCR':([0,],[5,]),'$end':([1,2,3,8,9,],[0,-1,-2,-3,-4,]),'IDENT':([4,5,],[6,7,]),';':([6,7,],[8,9,]),}
+_lr_action_items = {'CLEAR':([0,],[5,]),'INCR':([0,],[6,]),'DECR':([0,],[7,]),'$end':([1,2,3,4,12,13,14,],[0,-1,-2,-3,-5,-6,-7,]),'IDENT':([5,6,7,],[9,9,9,]),';':([8,9,10,11,],[12,-4,13,14,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'stmt':([0,],[1,]),'clear_stmt':([0,],[2,]),'incr_stmt':([0,],[3,]),}
+_lr_goto_items = {'stmt':([0,],[1,]),'clear_stmt':([0,],[2,]),'incr_stmt':([0,],[3,]),'decr_stmt':([0,],[4,]),'var':([5,6,7,],[8,10,11,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,10 +27,11 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',48),
-  ('stmt -> incr_stmt','stmt',1,'p_stmt','bb_parser.py',49),
-  ('clear_stmt -> CLEAR IDENT ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',54),
-  ('incr_stmt -> INCR IDENT ;','incr_stmt',3,'p_incr_stmt','bb_parser.py',59),
-  ('factor -> NUMBER','factor',1,'p_factor','bb_parser.py',64),
-  ('factor -> IDENT','factor',1,'p_factor','bb_parser.py',65),
+  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',68),
+  ('stmt -> incr_stmt','stmt',1,'p_stmt','bb_parser.py',69),
+  ('stmt -> decr_stmt','stmt',1,'p_stmt','bb_parser.py',70),
+  ('var -> IDENT','var',1,'p_var','bb_parser.py',75),
+  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',80),
+  ('incr_stmt -> INCR var ;','incr_stmt',3,'p_incr_stmt','bb_parser.py',85),
+  ('decr_stmt -> DECR var ;','decr_stmt',3,'p_decr_stmt','bb_parser.py',90),
 ]
