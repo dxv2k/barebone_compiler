@@ -2,12 +2,11 @@ from ply import lex, yacc
 print('Import lex  and yacc successfully') 
 
 #-----------------------LEXER--------------------------------
-
 # List of tokens
 # Reserved keywords 
 reserved = { 
-    'init':'INIT', 
-    'clear':'CLEAR', 
+    "init":"INIT", 
+    "clear":"CLEAR", 
     "while":"WHILE", 
     "do":"DO", 
     "incr":"INCR", 
@@ -16,6 +15,7 @@ reserved = {
     "to":"TO", 
     "not":"NOT",
     "NULL":"0",
+    # TODO: Add token for <,>,= comparision  
 } 
 
 tokens = ["IDENT","NUMBER"] + list(reserved.values())
@@ -32,6 +32,7 @@ def t_IDENT(t):
     t.type = reserved.get(t.value,"IDENT") 
     return t 
 
+# t_NUMBER will be used as INTEGER
 def t_NUMBER(t): 
     r'\d+' 
     t.value = int(t.value) 
@@ -52,29 +53,41 @@ def t_error(t):
 
 #--------------------------YACC------------------------------------
 
+def p_program(p): 
+    ''' 
+        program : stmt_list 
+                | init_list stmt_list
+    '''
 
-# def p_init_list_stmt(p): 
-#     ''' 
-#         init_list_stmt : init_stmt
-#                        | init_list stmt_list
-#     ''' 
+def p_init_list(p): 
+    '''
+        init_list : init 
+                  | init_list init 
+    '''
 
-# def p_init_stmt(p): 
-#     ''' 
-#         init_stmt : INIT var '=' NUMBER ';'
-#     ''' 
+def P_init(p): 
+    ''' 
+        init : INIT var '=' NUMBER ';'
+    ''' 
 
-# def p_stmt_list(p): 
-#     ''' 
-#         stmt_list : stmt
-#                   | stmt_list stmt 
-#     ''' 
+def p_program(p): 
+    ''' 
+        program : stmt_list 
+    ''' 
+
+def p_stmt_list(p): 
+    ''' 
+        stmt_list : stmt 
+                  | stmt_list stmt 
+    '''
 
 def p_stmt(p): 
     ''' 
         stmt : clear_stmt 
              | incr_stmt 
              | decr_stmt
+             | while_stmt
+             | copy_stmt
     ''' 
 
 def p_var(p): 
@@ -97,20 +110,31 @@ def p_decr_stmt(p):
         decr_stmt : DECR var ';'
     ''' 
 
+def p_while_stmt(p): 
+    ''' 
+        while_stmt : WHILE var NOT NUMBER DO ';' stmt_list END ';'
+    '''
+
+def p_copy_stmt(p): 
+    ''' 
+        copy_stmt : CPOY var TO var ';'
+    ''' 
+
 # TODO: TEST NEW ERROR CATCHING FUNCTION IN PARSER
-def p_error(p): 
-    if p: 
-        print("Syntax error at '%s'" % p.value)
-    else: 
-        print("Syntax error at EOF")
+# def p_error(p): 
+#     if p: 
+#         print("Syntax error at '%s'" % p.value)
+#     else: 
+#         print("Syntax error at EOF")
+
 
 
 # Input testing 
 data = ''' 
-CLEAR X; 
-INCR X; 
+INCR thisIsX ;  
 ''' 
-yacc.yacc(debug=True) 
+# yacc.yacc(debug=True) 
+yacc.yacc() 
 lexer = lex.lex(debug=True) 
 lexer.input(data) 
 yacc.yacc(debug=True) 
@@ -141,16 +165,6 @@ print(result)
 #     if not current_token: 
 #         break 
 #     print(current_token)
-
-
-
-
-
-
-
-
-
-
 
 
 
