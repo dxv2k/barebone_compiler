@@ -1,12 +1,12 @@
 from ply import lex, yacc
-print('Import lex  and yacc successfully') 
+print('Import lex and yacc successfully') 
 
 #-----------------------LEXER--------------------------------
 # List of tokens
 # Reserved keywords 
 reserved = { 
     "init":"INIT", 
-    "clear":"CLEAR", 
+    # "clear":"CLEAR", 
     "while":"WHILE", 
     "do":"DO", 
     "incr":"INCR", 
@@ -24,12 +24,13 @@ literals = [';','=']
 # Regex rules for tokens 
 t_ignore = ' \t\n' # Ignore space,tabs and newline 
 t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
+t_clear = r'CLEAR'
 
 # Rule for identifier (name)
 def t_IDENT(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    # Not sure this line below 
-    t.type = reserved.get(t.value,"IDENT") 
+    # Check in reserved keywords first
+    # t.type = reserved.get(t.value,"IDENT") 
     return t 
 
 # t_NUMBER will be used as INTEGER
@@ -53,98 +54,36 @@ def t_error(t):
 
 #--------------------------YACC------------------------------------
 
-def p_program(p): 
-    ''' 
-        program : stmt_list 
-                | init_list stmt_list
-    '''
-
-def p_init_list(p): 
-    '''
-        init_list : init 
-                  | init_list init 
-    '''
-
-def P_init(p): 
-    ''' 
-        init : INIT var '=' NUMBER ';'
-    ''' 
-
-def p_program(p): 
-    ''' 
-        program : stmt_list 
-    ''' 
-
-def p_stmt_list(p): 
-    ''' 
-        stmt_list : stmt 
-                  | stmt_list stmt 
-    '''
-
 def p_stmt(p): 
     ''' 
-        stmt : clear_stmt 
-             | incr_stmt 
-             | decr_stmt
-             | while_stmt
-             | copy_stmt
-    ''' 
-
-def p_var(p): 
-    ''' 
-        var : IDENT 
+        stmt : clear_stmt
     '''
 
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
-    ''' 
-
-def p_incr_stmt(p): 
-    ''' 
-        incr_stmt : INCR var ';'
-    ''' 
-
-def p_decr_stmt(p): 
-    ''' 
-        decr_stmt : DECR var ';'
-    ''' 
-
-def p_while_stmt(p): 
-    ''' 
-        while_stmt : WHILE var NOT NUMBER DO ';' stmt_list END ';'
     '''
+    p[0] = ('clear_stmt',p[2]) 
 
-def p_copy_stmt(p): 
+def p_var(p): 
     ''' 
-        copy_stmt : CPOY var TO var ';'
-    ''' 
-
-# TODO: TEST NEW ERROR CATCHING FUNCTION IN PARSER
-# def p_error(p): 
-#     if p: 
-#         print("Syntax error at '%s'" % p.value)
-#     else: 
-#         print("Syntax error at EOF")
-
+        var : IDENT
+    '''     
+    print(p[0])
 
 
 # Input testing 
 data = ''' 
-INCR thisIsX ;  
+CLEAR X;
 ''' 
+
+# lexer = lex.lex(debug=True) 
+# lexer.input(data) 
 # yacc.yacc(debug=True) 
-yacc.yacc() 
-lexer = lex.lex(debug=True) 
-lexer.input(data) 
-yacc.yacc(debug=True) 
-result = yacc.parse(data)
-print(result)
+# result = yacc.parse(data)
+# print(result)
 
 
-
-
-#Testing lexer 
 # data = '''
 # 12 
 # thisIsVariable
@@ -158,15 +97,13 @@ print(result)
 # = 
 # ''' 
 
-# lexer = lex.lex() 
-# lexer.input(data) 
-# while True: 
-#     current_token = lexer.token() 
-#     if not current_token: 
-#         break 
-#     print(current_token)
-
-
+lexer = lex.lex() 
+lexer.input(data) 
+while True: 
+    current_token = lexer.token() 
+    if not current_token: 
+        break 
+    print(current_token)
 
 
 #------------------------INTERPRETER-------------------------

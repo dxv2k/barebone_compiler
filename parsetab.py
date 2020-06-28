@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "COMMENT DIV ID LPAREN MINUS MULT NUMBER PLUS RPAREN\n        stmt : expr\n    \n        expr : expr PLUS term\n             | expr MINUS term \n             | term \n     \n        term : term MULT factor\n             | term DIV factor \n             | factor\n     \n        factor : ID \n               | '(' expr ')'             \n    "
+_lr_signature = "0 CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : clear_stmt\n     \n        clear_stmt : CLEAR var ';'\n     \n        var : IDENT\n    "
     
-_lr_action_items = {'ID':([0,6,7,8,9,10,],[5,5,5,5,5,5,]),'(':([0,6,7,8,9,10,],[6,6,6,6,6,6,]),'$end':([1,2,3,4,5,12,13,14,15,16,],[0,-1,-4,-7,-8,-2,-3,-5,-6,-9,]),'PLUS':([2,3,4,5,11,12,13,14,15,16,],[7,-4,-7,-8,7,-2,-3,-5,-6,-9,]),'MINUS':([2,3,4,5,11,12,13,14,15,16,],[8,-4,-7,-8,8,-2,-3,-5,-6,-9,]),')':([3,4,5,11,12,13,14,15,16,],[-4,-7,-8,16,-2,-3,-5,-6,-9,]),'MULT':([3,4,5,12,13,14,15,16,],[9,-7,-8,9,9,-5,-6,-9,]),'DIV':([3,4,5,12,13,14,15,16,],[10,-7,-8,10,10,-5,-6,-9,]),}
+_lr_action_items = {'CLEAR':([0,],[3,]),'$end':([1,2,6,],[0,-1,-2,]),'IDENT':([3,],[5,]),';':([4,5,],[6,-3,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'stmt':([0,],[1,]),'expr':([0,6,],[2,11,]),'term':([0,6,7,8,],[3,3,12,13,]),'factor':([0,6,7,8,9,10,],[4,4,4,4,14,15,]),}
+_lr_goto_items = {'stmt':([0,],[1,]),'clear_stmt':([0,],[2,]),'var':([3,],[4,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,13 +27,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> expr','stmt',1,'p_stmt','parser_test.py',84),
-  ('expr -> expr PLUS term','expr',3,'p_expr','parser_test.py',90),
-  ('expr -> expr MINUS term','expr',3,'p_expr','parser_test.py',91),
-  ('expr -> term','expr',1,'p_expr','parser_test.py',92),
-  ('term -> term MULT factor','term',3,'p_term','parser_test.py',100),
-  ('term -> term DIV factor','term',3,'p_term','parser_test.py',101),
-  ('term -> factor','term',1,'p_term','parser_test.py',102),
-  ('factor -> ID','factor',1,'p_factor','parser_test.py',110),
-  ('factor -> ( expr )','factor',3,'p_factor','parser_test.py',111),
+  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',58),
+  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',63),
+  ('var -> IDENT','var',1,'p_var','bb_parser.py',71),
 ]

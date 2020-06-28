@@ -1,0 +1,100 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    0
+    COPY
+    DECR
+    DO
+    INCR
+    INIT
+    NOT
+    NUMBER
+    TO
+    WHILE
+
+Grammar
+
+Rule 0     S' -> stmt
+Rule 1     stmt -> clear_stmt
+Rule 2     clear_stmt -> CLEAR var ;
+Rule 3     var -> IDENT
+
+Terminals, with rules where they appear
+
+0                    : 
+;                    : 2
+CLEAR                : 2
+COPY                 : 
+DECR                 : 
+DO                   : 
+IDENT                : 3
+INCR                 : 
+INIT                 : 
+NOT                  : 
+NUMBER               : 
+TO                   : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+clear_stmt           : 1
+stmt                 : 0
+var                  : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . stmt
+    (1) stmt -> . clear_stmt
+    (2) clear_stmt -> . CLEAR var ;
+
+    CLEAR           shift and go to state 3
+
+    stmt                           shift and go to state 1
+    clear_stmt                     shift and go to state 2
+
+state 1
+
+    (0) S' -> stmt .
+
+
+
+state 2
+
+    (1) stmt -> clear_stmt .
+
+    $end            reduce using rule 1 (stmt -> clear_stmt .)
+
+
+state 3
+
+    (2) clear_stmt -> CLEAR . var ;
+    (3) var -> . IDENT
+
+    IDENT           shift and go to state 5
+
+    var                            shift and go to state 4
+
+state 4
+
+    (2) clear_stmt -> CLEAR var . ;
+
+    ;               shift and go to state 6
+
+
+state 5
+
+    (3) var -> IDENT .
+
+    ;               reduce using rule 3 (var -> IDENT .)
+
+
+state 6
+
+    (2) clear_stmt -> CLEAR var ; .
+
+    $end            reduce using rule 2 (clear_stmt -> CLEAR var ; .)
+
