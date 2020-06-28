@@ -23,7 +23,7 @@ literals = [';','=']
 
 # Regex rules for tokens 
 t_ignore = ' \t\n' # Ignore space,tabs and newline 
-t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
+t_ignore_COMMENT = r'\#.*' # Ignore comment start with  
 t_clear = r'CLEAR'
 
 # Rule for identifier (name)
