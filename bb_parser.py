@@ -6,7 +6,7 @@ print('Import lex and yacc successfully')
 # Reserved keywords 
 reserved = { 
     "init":"INIT", 
-    # "clear":"CLEAR", 
+    "clear":"CLEAR", 
     "while":"WHILE", 
     "do":"DO", 
     "incr":"INCR", 
@@ -18,13 +18,12 @@ reserved = {
     # TODO: Add token for <,>,= comparision  
 } 
 
-tokens = ["IDENT","NUMBER"] + list(reserved.values())
+tokens = ["IDENT","NUMBER",] + list(reserved.values())
 literals = [';','='] 
 
 # Regex rules for tokens 
 t_ignore = ' \t\n' # Ignore space,tabs and newline 
 t_ignore_COMMENT = r'\#.*' # Ignore comment start with  
-t_clear = r'CLEAR'
 
 # Rule for identifier (name)
 def t_IDENT(t): 
