@@ -57,13 +57,7 @@ def t_error(t):
 def p_stmt(p): 
     ''' 
         stmt : clear_stmt
-             | init_stmt
     '''
-def p_init_stmt(p): 
-    ''' 
-        init_stmt : INIT var ';'
-    '''
-    print()
 
 def p_clear_stmt(p): 
     ''' 
@@ -79,10 +73,10 @@ def p_var(p):
     ''' 
         var : IDENT
     '''     
-    try: 
-        find_var(p)
-    except: 
-        print("Varaible '%s' are in used" % p[0])
+#    try: 
+#        find_var(p)
+#    except: 
+#        print("Varaible '%s' are in used" % p[0])
 
 
 
@@ -94,8 +88,9 @@ def find_var(input_var):
     '''
     for var in list_var: 
         if input_var == var: 
-            print('Variable name already exists') 
+#            print('Variable name already exists') 
             return var
+
 
 
 # TODO: add def p_error(p)
@@ -104,6 +99,9 @@ def find_var(input_var):
 #         print("Syntax error at '%s'" % p.value)
 #     else: 
 #         print("Syntax error at EOF")
+
+
+
 
 # Input testing 
 data = ''' 
