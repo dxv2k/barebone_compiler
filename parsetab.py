@@ -27,7 +27,7 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',58),
-  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',63),
-  ('var -> IDENT','var',1,'p_var','bb_parser.py',71),
+  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',59),
+  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',64),
+  ('var -> IDENT','var',1,'p_var','bb_parser.py',72),
 ]

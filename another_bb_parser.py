@@ -1,79 +1,95 @@
-from ply import lex,yacc 
-print('Import lex and yacc successfully') 
+from ply import lex, yacc 
 
-tokens = [
-    "IDENT", 
-    "NUMBER",
-]
+tokens = (
+ 'NAME','NUMBER',
+)
 
-literals = [';']
+literals = ['=','+','-','*','/', '(',')']
 
-# Regex rules for tokens 
-t_ignore = ' \t\n' # Ignore space,tabs and newline 
-t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
+# Tokens
+t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_ignore = " \t"
 
-# Rule for identifier (name)
-def t_IDENT(t): 
-    r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    # Check in reserved keywords first
-    # t.type = reserved.get(t.value,"IDENT") 
-    return t 
+def t_NUMBER(t):
+    r'\d+'
+    t.value = int(t.value)
+    return t
 
-# t_NUMBER will be used as INTEGER
-def t_NUMBER(t): 
-    r'\d+' 
-    t.value = int(t.value) 
-    try: 
-        t.value = int(t.value)
-    except ValueError: 
-        print("Integer value to large %s" % t.value) 
-        t.value = 0
-    return t 
-
-def t_newline(t): 
-    r'\n+' 
-    t.lexer.lineno += len(t.value)
-
-def t_error(t): 
-    print("Illegal character '%s'" % t.value[0]) 
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += t.value.count("\n")
+ 
+def t_error(t):
+    print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-data = ''' 
-# Ignore this line
-secondVariable;
-thisIsVariable;
-''' 
+precedence = (
+    ('left','+','-'),
+    ('left','*','/'),
+    ('right','UMINUS'),
+)
 
-def p_stmt(p): 
-    ''' 
-        stmt : var 
-    '''
+# dictionary of names
+names = {}
 
-def p_var(p): 
-    ''' 
-        var : IDENT ';'
-    '''
+def p_statement_assign(p):
+    'statement : NAME "=" expression'
+    names[p[1]] = p[3]
 
-def p_expr(p): 
-    ''' 
-        expr : var 
-             | stmt
-    '''
+def p_statement_expr(p):
+    'statement : expression'
+    print(p[1])
 
-# lexer = lex.lex()
-# lexer.input(data) 
-# while True: 
-#     current_token = lexer.token() 
-#     if not current_token: 
-#         break 
-#     print(current_token)
+def p_expression_binop(p):
+    '''expression : expression '+' expression
+                  | expression '-' expression
+                  | expression '*' expression
+                  | expression '/' expression'''
+    if p[2] == '+' : p[0] = p[1] + p[3]
+    elif p[2] == '-': p[0] = p[1] - p[3]
+    elif p[2] == '*': p[0] = p[1] * p[3]
+    elif p[2] == '/': p[0] = p[1] / p[3]
+
+def p_expression_uminus(p):
+    "expression : '-' expression %prec UMINUS"
+    p[0] = -p[2]
+
+def p_expression_group(p):
+    "expression : '(' expression ')'"
+    p[0] = p[2]
+
+def p_expression_number(p):
+    "expression : NUMBER"
+    p[0] = p[1]
+
+def p_expression_name(p):
+    "expression : NAME"
+    try:
+        p[0] = names[p[1]]
+    except LookupError:
+        print("Undefined name '%s'" % p[1])
+        p[0] = 0
+
+def p_error(p):
+    if p:
+        print("Syntax error at '%s'" % p.value)
+    else:
+        print("Syntax error at EOF")
+
+lexer = lex.lex(debug=True)
+yacc.yacc(debug=True)
+while 1: 
+    try: 
+        s = input('calc > ')
+    except EOFError: 
+        break 
+    if not s: continue
+    yacc.parse(s)
 
 
-lexer = lex.lex(debug=True) 
-lexer.input(data) 
-yacc.yacc(debug=True) 
-result = yacc.parse(data)
-print(result)
+
+
+
 
 
 
