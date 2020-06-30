@@ -26,7 +26,6 @@ t_ignore = ' \t\n' # Ignore space,tabs and newline
 t_ignore_COMMENT = r'\#.*' # Ignore comment start with  
 
 # Rule for identifier (name)
-# BUG HERE, check reserved keywords not properly
 def t_IDENT(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
     # Check in reserved keywords first
@@ -61,15 +60,22 @@ def p_stmt(p):
     '''
 def p_init_stmt(p): 
     ''' 
-        init_stmt : INIT var ';'
+        init_stmt : INIT var '=' NUMBER ';'
     '''
-    print()
+    find_var(p[2])
+    print(p[4])
+
+# def p_assign_stmt(p): 
+#     '''
+#     '''
 
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
     '''
+    # print(p[0])
     # print(p[1])
+    print(p[2])
 
 def p_var(p): 
     # Default initial value of variable will be None 
@@ -79,11 +85,7 @@ def p_var(p):
     ''' 
         var : IDENT
     '''     
-    try: 
-        find_var(p)
-    except: 
-        print("Varaible '%s' are in used" % p[0])
-
+    find_var(p[1])
 
 
 list_var = {} # Contains list of VAR name and its VALUE
@@ -91,11 +93,15 @@ def find_var(input_var):
     u''' 
         find_var(var) will search for variable names 
         that are in used
+        If variable doesn't exists then init variable with 
+        0 value
     '''
     for var in list_var: 
-        if input_var == var: 
+        if var == input_var: 
             print('Variable name already exists') 
-            return var
+            break
+    # If variable doesn't exists -> init_zero
+    list_var[input_var] = 0
 
 
 # TODO: add def p_error(p)
@@ -107,8 +113,9 @@ def find_var(input_var):
 
 # Input testing 
 data = ''' 
-clear X;
-# Ignore this line 
+clear X; 
+init X = 100; 
+# Ignore this line for testing purpose 
 ''' 
 
 lexer = lex.lex(debug=True) 
