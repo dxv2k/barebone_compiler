@@ -59,16 +59,17 @@ def p_stmt(p):
         stmt : clear_stmt
              | init_stmt
     '''
-
-
-
+def p_init_stmt(p): 
+    ''' 
+        init_stmt : INIT var ';'
+    '''
+    print()
 
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
     '''
     # print(p[1])
-
 
 def p_var(p): 
     # Default initial value of variable will be None 
@@ -97,8 +98,6 @@ def find_var(input_var):
             return var
 
 
-
-
 # TODO: add def p_error(p)
 # def p_error(p): 
 #     if p: 
@@ -108,7 +107,6 @@ def find_var(input_var):
 
 # Input testing 
 data = ''' 
-clear X;
 clear X;
 # Ignore this line 
 ''' 
