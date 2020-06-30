@@ -56,7 +56,6 @@ def t_error(t):
 def p_stmt(p): 
     ''' 
         stmt : clear_stmt
-             | init_stmt
     '''
 def p_init_stmt(p): 
     ''' 
@@ -104,12 +103,16 @@ def find_var(input_var):
     list_var[input_var] = 0
 
 
+
 # TODO: add def p_error(p)
 # def p_error(p): 
 #     if p: 
 #         print("Syntax error at '%s'" % p.value)
 #     else: 
 #         print("Syntax error at EOF")
+
+
+
 
 # Input testing 
 data = ''' 
