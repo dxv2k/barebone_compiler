@@ -15,25 +15,24 @@ Grammar
 
 Rule 0     S' -> stmt
 Rule 1     stmt -> clear_stmt
-Rule 2     stmt -> init_stmt
-Rule 3     init_stmt -> INIT var = NUMBER ;
-Rule 4     clear_stmt -> CLEAR var ;
-Rule 5     var -> IDENT
+Rule 2     init_stmt -> INIT var = NUMBER ;
+Rule 3     clear_stmt -> CLEAR var ;
+Rule 4     var -> IDENT
 
 Terminals, with rules where they appear
 
 0                    : 
-;                    : 3 4
-=                    : 3
-CLEAR                : 4
+;                    : 2 3
+=                    : 2
+CLEAR                : 3
 COPY                 : 
 DECR                 : 
 DO                   : 
-IDENT                : 5
+IDENT                : 4
 INCR                 : 
-INIT                 : 3
+INIT                 : 2
 NOT                  : 
-NUMBER               : 3
+NUMBER               : 2
 TO                   : 
 WHILE                : 
 error                : 
@@ -41,9 +40,9 @@ error                :
 Nonterminals, with rules where they appear
 
 clear_stmt           : 1
-init_stmt            : 2
+init_stmt            : 
 stmt                 : 0
-var                  : 3 4
+var                  : 2 3
 
 Parsing method: LALR
 
@@ -51,16 +50,12 @@ state 0
 
     (0) S' -> . stmt
     (1) stmt -> . clear_stmt
-    (2) stmt -> . init_stmt
-    (4) clear_stmt -> . CLEAR var ;
-    (3) init_stmt -> . INIT var = NUMBER ;
+    (3) clear_stmt -> . CLEAR var ;
 
-    CLEAR           shift and go to state 4
-    INIT            shift and go to state 5
+    CLEAR           shift and go to state 3
 
     stmt                           shift and go to state 1
     clear_stmt                     shift and go to state 2
-    init_stmt                      shift and go to state 3
 
 state 1
 
@@ -77,75 +72,30 @@ state 2
 
 state 3
 
-    (2) stmt -> init_stmt .
+    (3) clear_stmt -> CLEAR . var ;
+    (4) var -> . IDENT
 
-    $end            reduce using rule 2 (stmt -> init_stmt .)
+    IDENT           shift and go to state 5
 
+    var                            shift and go to state 4
 
 state 4
 
-    (4) clear_stmt -> CLEAR . var ;
-    (5) var -> . IDENT
+    (3) clear_stmt -> CLEAR var . ;
 
-    IDENT           shift and go to state 7
+    ;               shift and go to state 6
 
-    var                            shift and go to state 6
 
 state 5
 
-    (3) init_stmt -> INIT . var = NUMBER ;
-    (5) var -> . IDENT
+    (4) var -> IDENT .
 
-    IDENT           shift and go to state 7
+    ;               reduce using rule 4 (var -> IDENT .)
 
-    var                            shift and go to state 8
 
 state 6
 
-    (4) clear_stmt -> CLEAR var . ;
+    (3) clear_stmt -> CLEAR var ; .
 
-    ;               shift and go to state 9
-
-
-state 7
-
-    (5) var -> IDENT .
-
-    ;               reduce using rule 5 (var -> IDENT .)
-    =               reduce using rule 5 (var -> IDENT .)
-
-
-state 8
-
-    (3) init_stmt -> INIT var . = NUMBER ;
-
-    =               shift and go to state 10
-
-
-state 9
-
-    (4) clear_stmt -> CLEAR var ; .
-
-    $end            reduce using rule 4 (clear_stmt -> CLEAR var ; .)
-
-
-state 10
-
-    (3) init_stmt -> INIT var = . NUMBER ;
-
-    NUMBER          shift and go to state 11
-
-
-state 11
-
-    (3) init_stmt -> INIT var = NUMBER . ;
-
-    ;               shift and go to state 12
-
-
-state 12
-
-    (3) init_stmt -> INIT var = NUMBER ; .
-
-    $end            reduce using rule 3 (init_stmt -> INIT var = NUMBER ; .)
+    $end            reduce using rule 3 (clear_stmt -> CLEAR var ; .)
 

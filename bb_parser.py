@@ -57,12 +57,14 @@ def p_stmt(p):
     ''' 
         stmt : clear_stmt
     '''
+
 def p_init_stmt(p): 
     ''' 
         init_stmt : INIT var '=' NUMBER ';'
     '''
-    find_var(p[2])
-    print(p[4])
+    if find_var(p[2]) == None: 
+        set_var(p[2],p[4])
+
 
 # def p_assign_stmt(p): 
 #     '''
@@ -72,9 +74,10 @@ def p_clear_stmt(p):
     ''' 
         clear_stmt : CLEAR var ';'
     '''
-    # print(p[0])
-    # print(p[1])
-    print(p[2])
+    # print(p[2])
+    if find_var(p[1]) == None: 
+        print("Variable '%s' doesn't exists" % p[1])
+
 
 def p_var(p): 
     # Default initial value of variable will be None 
@@ -84,23 +87,46 @@ def p_var(p):
     ''' 
         var : IDENT
     '''     
-    find_var(p[1])
-
 
 list_var = {} # Contains list of VAR name and its VALUE
+
+def set_var(var_name, var_value=0): 
+    u'''
+        Used to set variable name and its value 
+        This can also be used to initialize variable 
+        set_var(
+            var_name: STRING variable name 
+            var_value: INTEGER  
+        )
+        Whenever passing var_name and var_value, default 
+        value will always be 0, this could be changed  
+    '''
+    list_var[var_name] = var_value
+
 def find_var(input_var): 
     u''' 
         find_var(var) will search for variable names 
         that are in used
         If variable doesn't exists then init variable with 
         0 value
+        if find_var() return FALSE -> var is not init and otherwise
     '''
     for var in list_var: 
         if var == input_var: 
             print('Variable name already exists') 
-            break
+            return var
+    return # Return null if var doesn't exists 
+
+    # try: 
+    #     for var in list_var: 
+    #         if var == input_var: 
+    #             print('Variable name already exists') 
+    #             return var
+    # except: 
+    #     print("Variable '%s' must be initialize " % input_var)
+
     # If variable doesn't exists -> init_zero
-    list_var[input_var] = 0
+    # list_var[input_var] = 0
 
 
 
@@ -113,11 +139,9 @@ def find_var(input_var):
 
 
 
-
 # Input testing 
 data = ''' 
 clear X; 
-init X = 100; 
 # Ignore this line for testing purpose 
 ''' 
 
