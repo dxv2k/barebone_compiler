@@ -74,21 +74,18 @@ def p_clear_stmt(p):
     ''' 
         clear_stmt : CLEAR var ';'
     '''
-    # DO NOT ALLOW to use clear_stmt to intialize variable
     if isVarExists(p[2]) == False: 
+        # DO NOT ALLOW to use clear_stmt to intialize variable
         print("Variable '%s' must be initialize first" % p[2])
     else: 
+        # BUG: could not set_var, intialized value remain the same
         set_var(p[2])
+
 def p_var(p): 
-    # Default initial value of variable will be None 
-    # Ex: clear X 
-    # -> list_var = {'X':None}
-    # NOTICE: None value will only be apply here
     ''' 
         var : IDENT
     '''     
     p[0] = p[1] # assign 'IDENT' from tokenizer to 'var'
-
 
 # Contains list of VAR name and its VALUE
 list_var = {} 
@@ -104,6 +101,7 @@ def set_var(var_name, var_value=0):
     '''
     # Directly set variable name and value to dictionary 
     # This is not a good way but still I'm gonna do it
+    # cause I've no timeee
     list_var[var_name] = var_value
 
 def isVarExists(input_var): 
