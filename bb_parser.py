@@ -28,7 +28,7 @@ t_ignore_COMMENT = r'\#.*' # Ignore comment start with
 # Rule for identifier (name)
 def t_IDENT(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    # Check in reserved keywords first
+    # Check in reserved keywords first if exists
     t.type = reserved.get(t.value,"IDENT") 
     return t 
 
@@ -66,16 +66,19 @@ def p_init_stmt(p):
     # If var isn't exists 
     if isVarExists(p[2]) == False: 
         set_var(p[2],p[4])
-    else: 
-        print('Do not allow variable to init multiple times')
+    else:  
+        print('Do not allow the same variable to initialize multiple times')
 
 # NOT WORKING ON clear_stmt
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
     '''
-    # isVarExists(p[2])
-
+    # DO NOT ALLOW to use clear_stmt to intialize variable
+    if isVarExists(p[2]) == False: 
+        print("Variable '%s' must be initialize first" % p[2])
+    else: 
+        set_var(p[2])
 def p_var(p): 
     # Default initial value of variable will be None 
     # Ex: clear X 
@@ -84,7 +87,8 @@ def p_var(p):
     ''' 
         var : IDENT
     '''     
-    # isVarExists(p[1])
+    p[0] = p[1] # assign 'IDENT' from tokenizer to 'var'
+
 
 # Contains list of VAR name and its VALUE
 list_var = {} 
@@ -137,11 +141,8 @@ def isVarExists(input_var):
 data = ''' 
 # Ignore this line for testing purpose 
 init X = 12;
-init X = 12;
+clear X;
 ''' 
-# lexer = lex.lex(debug=True) 
-# parser = yacc.yacc(debug=True) 
-
 lexer = lex.lex() 
 lexer.input(data) 
 parser = yacc.yacc() 
