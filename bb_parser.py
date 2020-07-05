@@ -55,8 +55,8 @@ def t_error(t):
 
 def p_stmt(p): 
     ''' 
-        stmt : clear_stmt
-             | init_stmt
+        stmt : init_stmt
+             | clear_stmt
     '''
 
 def p_init_stmt(p): 
@@ -69,7 +69,7 @@ def p_init_stmt(p):
     else:  
         print('Do not allow the same variable to initialize multiple times')
 
-# NOT WORKING ON clear_stmt
+# TODO: function for clear_stmt still not working properly
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
@@ -89,6 +89,10 @@ def p_var(p):
 
 # Contains list of VAR name and its VALUE
 list_var = {} 
+
+def new_stmt(): 
+    u''' 
+    '''
 
 def set_var(var_name, var_value=0): 
     u'''
@@ -147,7 +151,7 @@ parser = yacc.yacc()
 result = parser.parse(data,lexer)
 print(result)
 print(list_var)
-
+ 
 # # TESTING WITH CONSOLE INPUT
 # # Multiple time input 
 # lexer = lex.lex() 
@@ -164,6 +168,7 @@ print(list_var)
 # # TESTING TOKENIZER
 # data = ''' 
 # init X = 12;
+# clear X;
 # '''
 # lexer = lex.lex() 
 # lexer.input(data) 

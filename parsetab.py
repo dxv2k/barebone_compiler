@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "0 CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : clear_stmt\n             | init_stmt\n     \n        init_stmt : INIT var '=' NUMBER ';'\n     \n        clear_stmt : CLEAR var ';'\n     \n        var : IDENT\n    "
+_lr_signature = "0 CLEAR COPY DECR DO IDENT INCR INIT NOT NUMBER TO WHILE \n        stmt : init_stmt\n             | clear_stmt\n     \n        init_stmt : INIT var '=' NUMBER ';'\n     \n        clear_stmt : CLEAR var ';'\n     \n        var : IDENT\n    "
     
-_lr_action_items = {'CLEAR':([0,],[4,]),'INIT':([0,],[5,]),'$end':([1,2,3,9,12,],[0,-1,-2,-4,-3,]),'IDENT':([4,5,],[7,7,]),';':([6,7,11,],[9,-5,12,]),'=':([7,8,],[-5,10,]),'NUMBER':([10,],[11,]),}
+_lr_action_items = {'INIT':([0,],[4,]),'CLEAR':([0,],[5,]),'$end':([1,2,3,10,12,],[0,-1,-2,-4,-3,]),'IDENT':([4,5,],[7,7,]),'=':([6,7,],[9,-5,]),';':([7,8,11,],[-5,10,12,]),'NUMBER':([9,],[11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'stmt':([0,],[1,]),'clear_stmt':([0,],[2,]),'init_stmt':([0,],[3,]),'var':([4,5,],[6,8,]),}
+_lr_goto_items = {'stmt':([0,],[1,]),'init_stmt':([0,],[2,]),'clear_stmt':([0,],[3,]),'var':([4,5,],[6,8,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,9 +27,9 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> stmt","S'",1,None,None,None),
-  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',58),
-  ('stmt -> init_stmt','stmt',1,'p_stmt','bb_parser.py',59),
+  ('stmt -> init_stmt','stmt',1,'p_stmt','bb_parser.py',58),
+  ('stmt -> clear_stmt','stmt',1,'p_stmt','bb_parser.py',59),
   ('init_stmt -> INIT var = NUMBER ;','init_stmt',5,'p_init_stmt','bb_parser.py',64),
-  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',76),
-  ('var -> IDENT','var',1,'p_var','bb_parser.py',82),
+  ('clear_stmt -> CLEAR var ;','clear_stmt',3,'p_clear_stmt','bb_parser.py',74),
+  ('var -> IDENT','var',1,'p_var','bb_parser.py',85),
 ]
