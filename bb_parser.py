@@ -39,13 +39,14 @@ def t_NUMBER(t):
     try: 
         t.value = int(t.value)
     except ValueError: 
-        print("Integer value to large %s" % t.value) 
+        print("Integer value too large %s" % t.value) 
         t.value = 0
     return t 
 
 def t_newline(t): 
     r'\n+' 
     t.lexer.lineno += len(t.value)
+    # TODO: Return line to passthrough stmt class
 
 def t_error(t): 
     print("Illegal character '%s'" % t.value[0]) 

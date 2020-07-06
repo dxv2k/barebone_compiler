@@ -10,37 +10,49 @@ class stmt_type(Enum):
     decr_stmt = auto() 
     while_stmt = auto() 
     copy_stmt = auto() 
-    add_clear_stmt = auto() 
+    # add_clear_stmt = auto() # TODO: This one not sure 
 
 class stmt(self): 
     u'''
     '''
-    def __init__(
-                line=None, # use for tracking statement line 
-                type=None, # stmt_type passthrough here  
+    def __init__(self,
+                current_line=None, # use for tracking statement line in 
+                                   # whole program
+                type=None, # stmt_type(Enum) passthrough here  
                 var=None, # variable name 
+                var_dest=None, # Use for copy_stmt only 
+                stmt_list=[] # Use for while_loop() only 
+                             # Variable that init in stmt_list will be discarded
+                             # after while_loop() completed
     ): 
-        line = line
-        type = type 
-        var = var
-    # TODO: about sub_stmt use to manage sub statment
-    # for the program
+        self.line = current_line
+        self.type = type 
+        self.var = var
+    # TODO: add try_catch/raise exception 
+    # def return_line(self): 
+    #     return self.line
 
 class var(self): 
     u''' 
     '''
-    def __init__(name, # Variable name must not be empty when initialize
-                val=0, # Value for variable and must be INTEGER
+    def __init__(self,
+                name, # Variable name must not be empty when initialize
+                value=0, # Value for variable and must be INTEGER
     ): 
-        name = name 
-        val = val 
-        init = 1 # if init # 0 -> cause runtime error 
+        self.name = name 
+        self.value = value 
+        # TODO: add try_catch/raise exception 
 
+    def set_var(self,new_value): 
+        self.value = new_value 
 
+    def return_name(self): 
+        return self.name
 
+    def return_val(self): 
+        return self.value
 
-
-
-
-
-
+def find_var(var_name): 
+    u''' 
+        find_var() expected to receive variable from var() class
+    '''
