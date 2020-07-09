@@ -1,5 +1,5 @@
 from ply import lex, yacc
-print('Import lex  and yacc successfully') 
+print('Import lex and yacc successfully') 
 
 #-----------------------LEXER--------------------------------
 # List of tokens
@@ -23,12 +23,12 @@ literals = [';','=']
 
 # Regex rules for tokens 
 t_ignore = ' \t\n' # Ignore space,tabs and newline 
-t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
+t_ignore_COMMENT = r'\#.*' # Ignore comment start with  
 
 # Rule for identifier (name)
 def t_IDENT(t): 
     r'[a-zA-Z_][a-zA-Z_0-9]*' 
-    # Not sure this line below 
+    # Check in reserved keywords first if exists
     t.type = reserved.get(t.value,"IDENT") 
     return t 
 
@@ -39,13 +39,14 @@ def t_NUMBER(t):
     try: 
         t.value = int(t.value)
     except ValueError: 
-        print("Integer value to large %s" % t.value) 
+        print("Integer value too large %s" % t.value) 
         t.value = 0
     return t 
 
 def t_newline(t): 
     r'\n+' 
     t.lexer.lineno += len(t.value)
+    # TODO: Return line to passthrough stmt class
 
 def t_error(t): 
     print("Illegal character '%s'" % t.value[0]) 
@@ -53,74 +54,84 @@ def t_error(t):
 
 #--------------------------YACC------------------------------------
 
-def p_program(p): 
-    ''' 
-        program : stmt_list 
-                | init_list stmt_list
-    '''
-
-def p_init_list(p): 
-    '''
-        init_list : init 
-                  | init_list init 
-    '''
-
-def P_init(p): 
-    ''' 
-        init : INIT var '=' NUMBER ';'
-    ''' 
-
-def p_program(p): 
-    ''' 
-        program : stmt_list 
-    ''' 
-
-def p_stmt_list(p): 
-    ''' 
-        stmt_list : stmt 
-                  | stmt_list stmt 
-    '''
-
 def p_stmt(p): 
     ''' 
-        stmt : clear_stmt 
-             | incr_stmt 
-             | decr_stmt
-             | while_stmt
-             | copy_stmt
-    ''' 
-
-def p_var(p): 
-    ''' 
-        var : IDENT 
+        stmt : init_stmt
+             | clear_stmt
     '''
 
+def p_init_stmt(p): 
+    ''' 
+        init_stmt : INIT var '=' NUMBER ';'
+    '''
+    # If var isn't exists 
+    if isVarExists(p[2]) == False: 
+        set_var(p[2],p[4])
+    else:  
+        print('Do not allow the same variable to initialize multiple times')
+
+# TODO: function for clear_stmt still not working properly
 def p_clear_stmt(p): 
     ''' 
         clear_stmt : CLEAR var ';'
-    ''' 
+    '''
+    if isVarExists(p[2]) == False: 
+        # DO NOT ALLOW to use clear_stmt to intialize variable
+        print("Variable '%s' must be initialize first" % p[2])
+    else: 
+        # BUG: could not set_var, intialized value remain the same
+        set_var(p[2])
 
-def p_incr_stmt(p): 
+def p_var(p): 
     ''' 
-        incr_stmt : INCR var ';'
-    ''' 
+        var : IDENT
+    '''     
+    p[0] = p[1] # assign 'IDENT' from tokenizer to 'var'
 
-def p_decr_stmt(p): 
-    ''' 
-        decr_stmt : DECR var ';'
-    ''' 
+# Contains list of VAR name and its VALUE
+list_var = {} 
 
-def p_while_stmt(p): 
-    ''' 
-        while_stmt : WHILE var NOT NUMBER DO ';' stmt_list END ';'
+def new_stmt(): 
+    u''' 
     '''
 
-def p_copy_stmt(p): 
-    ''' 
-        copy_stmt : CPOY var TO var ';'
-    ''' 
+def set_var(var_name, var_value=0): 
+    u'''
+        set_var(
+            var_name: STRING variable name 
+            var_value: INTEGER  
+        )
+        - Used to set variable name and its value 
+        - This can also be used to initialize variable 
+    '''
+    # Directly set variable name and value to dictionary 
+    # This is not a good way but still I'm gonna do it
+    # cause I've no timeee
+    list_var[var_name] = var_value
 
-# TODO: TEST NEW ERROR CATCHING FUNCTION IN PARSER
+def isVarExists(input_var): 
+    u''' 
+        isVarExists(var) will search for variable names 
+        that are in used
+        If variable doesn't exists then init variable with 
+        0 value
+    '''
+    # Find if variable DO NOT exists on program 
+    if input_var not in list_var.keys():   
+        return False 
+    else: return True
+
+    # try: 
+    #     for var in list_var: 
+    #         if var == input_var: 
+    #             print('Variable name already exists') 
+    #             return var
+    # except: 
+    #     print("Variable '%s' must be initialize " % input_var)
+    # If variable doesn't exists -> init_zero
+    # list_var[input_var] = 0
+
+# TODO: add def p_error(p)
 # def p_error(p): 
 #     if p: 
 #         print("Syntax error at '%s'" % p.value)
@@ -128,36 +139,38 @@ def p_copy_stmt(p):
 #         print("Syntax error at EOF")
 
 
-
+# TESTING WITH NO CONSOLE INPUT
 # Input testing 
 data = ''' 
-INCR thisIsX ;  
+# Ignore this line for testing purpose 
+init X = 12;
+clear X;
 ''' 
-# yacc.yacc(debug=True) 
-yacc.yacc() 
-lexer = lex.lex(debug=True) 
+lexer = lex.lex() 
 lexer.input(data) 
-yacc.yacc(debug=True) 
-result = yacc.parse(data)
+parser = yacc.yacc() 
+result = parser.parse(data,lexer)
 print(result)
+print(list_var)
+ 
+# # TESTING WITH CONSOLE INPUT
+# # Multiple time input 
+# lexer = lex.lex() 
+# parser = yacc.yacc() 
+# while 1: 
+#     try: 
+#         # input() supports for Python3 but not sure with Python2
+#         s = input('>>> ')
+#     except EOFError: 
+#         break 
+#     if not s : continue
+#     parser.parse(s,lexer)
 
-
-
-
-#Testing lexer 
-# data = '''
-# 12 
-# thisIsVariable
-# incr X 
-# decr X
-# # Ignore this line
-# # Ignore this line too
-# while X not 0 do  
-# not
-# ; 
-# = 
-# ''' 
-
+# # TESTING TOKENIZER
+# data = ''' 
+# init X = 12;
+# clear X;
+# '''
 # lexer = lex.lex() 
 # lexer.input(data) 
 # while True: 
@@ -167,21 +180,7 @@ print(result)
 #     print(current_token)
 
 
-
-
 #------------------------INTERPRETER-------------------------
-# class INTERPRETER(): 
-
-
-
-
-
-
-
-
-
-
-
-
+# def INTERPRETER(): 
 
 
