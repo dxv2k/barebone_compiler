@@ -11,7 +11,7 @@ class statement_type(Enum):
     copy_stmt = auto()
 
 
-class var(self):
+class var():
 
     u'''
     '''
@@ -20,8 +20,8 @@ class var(self):
         self.name = name
         self.value = value
 
-    def set_var(self, value):
-        self.value = value
+    #def set_var(self, value):
+    #    self.value = value
 
     def return_value(self):
         return self.value
@@ -29,10 +29,19 @@ class var(self):
     def return_name(self):
         return self.name
 
+
     def isInit(self, name_of_var):
         return 1
 
-class stmt(self):
+def set_var(var_name , value):
+        # if var is init -> run for -> search -> set value
+
+
+# if not init -> init var -> run for -> search -> set value
+def find_var(var_name):   
+    
+
+class stmt():
     u'''
     '''
 
@@ -41,7 +50,7 @@ class stmt(self):
         self.type = type
         self.var = var
         #self.var_destination
-        #self.stmt_list
+        self.stmt_list = 
 
     def return_line(self):
         return self.line
@@ -54,9 +63,29 @@ class stmt(self):
         return self.var.value
 
     #def add_stmt_to_list(stmt):
-    #def getstmt_type
+    def getstmt_type(self):
+        return self.getstmt_type
 
     def return_stmt_list(self):
         return self.stmt_list
+
+    def add_stmt_to_list(self, statement):
+        self.stmt_list.append(statement)
+
+    def get_var(self):
+        return self.var
+
+list_statement = []
+
+def excute_statment(statement):
+
+    if statement.getstmt_type() == 1:
+        var = statement.get_var()
+        for i in list_statement:
+            if var.return_name() == i.return_name:
+                var.return_value
+
+    
+    
 
 
