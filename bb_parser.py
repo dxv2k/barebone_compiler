@@ -182,5 +182,3 @@ print(list_var)
 
 #------------------------INTERPRETER-------------------------
 # def INTERPRETER(): 
-
-
