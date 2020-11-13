@@ -1,56 +1,25 @@
-from anytree import Node 
-from enum import Enum
+from ply import lex,yacc
 
-clear_stmt = 'clear' 
-copy_stmt = 'copy' 
-decr_stmt = 'decr'
-incr_stmt = 'incr'
-init_stmt = 'init'
-while_stmt = 'while'
+tokens = [ 
+    'clear'
+]
 
+t_clear = r'CLEAR'
+t_ignore = ' \t\n' # Ignore space,tabs and newline 
+t_ignore_COMMENT = r'\#.*' # Ignore comment start with # 
 
-class Token(object): 
-    def __init__(self,type,value):
-        self.type = type
-        self.value = value        
+# Input testing 
+data = ''' 
+CLEAR X;
+''' 
 
-# class Interpreter(obecjt): 
-
-
-
-
-
-
-
-filename = 'factorial.bb.txt'
-
-with open(filename) as f: 
-    program = f.readlines()
-    
-
-
-
-
-
-currLine = None  # current line of executing program 
-                 # mainly use for error notice purpose
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+lexer = lex.lex() 
+lexer.input(data) 
+while True: 
+    current_token = lexer.token() 
+    if not current_token: 
+        break 
+    print(current_token)
 
 
 

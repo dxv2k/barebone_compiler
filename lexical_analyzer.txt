@@ -1,15 +1,24 @@
 LEXICAL ANAYLZER (~ SYNTAX ANAYLZER)
 
+Thinking of implement YACC 
+Basically, YACC is a set of regular expressions which
+process stream of input and paritioning it into token 
+That tokens receive from YACC could be use to build 
+abstract syntax tree (AST) and then could be transform
+into any higher languagues or excetuable program 
+
+Lexical analyzer can also be used as parser generator 
+to perform the lexical analysis phase  
 
 
-
-
-
-
-
- 
-
- 
+LEX SOURCE
+    {definition} 
+    %% 
+    {rules} 
+    %% 
+    {user subroutines}
+    this part and how to impelement regular expression in this 
+    Should you write your own lexical anaylyzer? 
 
  
 

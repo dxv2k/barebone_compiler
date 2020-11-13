@@ -51,7 +51,7 @@ CONCERN:
         -> COMPILER: transform into machine language 
         -> Plan right now is to build interpreter first and then 
             re-used some of the code to build compiler  
-
+    - Learn about regular expression 
 
 
 
@@ -62,7 +62,7 @@ REFERENCES:
     Computer Science An Overview 12th Edition 
     Computer Science An Overview 9th Edition 
     https://ruslanspivak.com/lsbasi-part1/ [CURRENTLY WATCHING]
-
+    https://developer.ibm.com/tutorials/au-lexyacc/ (How to write text parsers with yacc and lex)
 
 
 
